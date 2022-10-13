@@ -12,7 +12,6 @@ import { AdvancedChart } from "../../components/react-tradingview-embed";
 //        <AdvancedChart widgetProps={{ width: '700px', height: '500px', symbol: 'BITMEX:ETHUSDT', theme: 'dark' }} />
 import Swal from "sweetalert2";
 import HeaderComponent from "../../components/Header/HeaderComponent";
-import ChartComponent from "./Chart";
 
 //import Rex_logo from '../../assets/images/REX_logo.png'
 
@@ -47,17 +46,20 @@ const Exchange = () => {
   const [markethidden, setismarkethidden] = useState(false);
   const [cancelorderid, setcancelorderid] = useState(Number);
 
-  function ChartComponent(){
-    
-    return( <AdvancedChart             widgetProps={{
-        width: "700px",
-        height: "500px",
-        symbol: "BITMEX:ETHUSDT",
-        theme: "dark",
-      }} />)
-}
+  function ChartComponent() {
+    return (
+      <AdvancedChart
+        widgetProps={{
+          width: "700px",
+          height: "500px",
+          symbol: "BITMEX:ETHUSDT",
+          theme: "dark",
+        }}
+      />
+    );
+  }
 
-const calculation = useMemo(() => ChartComponent(), [orderbook])
+  const Chart = useMemo(() => ChartComponent(), [orderbook]);
 
   function toggleHidden() {
     setishidden(!ishidden);
@@ -318,7 +320,7 @@ const calculation = useMemo(() => ChartComponent(), [orderbook])
             paddingTop: "50px",
           }}
         >
-         {calculation}
+          {Chart}
           <div
             style={{ justifyContent: "center" }}
             className={"flexbox-vertical-container"}
@@ -381,161 +383,97 @@ const calculation = useMemo(() => ChartComponent(), [orderbook])
           style={{ justifyContent: "center" }}
           className={"flexbox-vertical-container"}
         >
-          <div
-            className={"tab"}
-            style={{
-              justifyContent: "center",
-              maxWidth: "30px",
-              minWidth: "400px",
-            }}
-          >
-            <button onClick={() => handlemarketclick()} className={"tablinks"}>
-              Market Order
-            </button>
-            <button onClick={() => handlelimitclick()} className={"tablinks"}>
-              Limit Order
-            </button>
+          <div className={"Rexcard"}>
+            <div className=" mb-10 justify-center py-2 flex flex-row...">
+              <button
+                onClick={() => handlemarketclick()}
+                type="button"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              >
+                Market Order
+              </button>
+              <button
+                onClick={() => handlelimitclick()}
+                type="button"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              >
+                Limit Order
+              </button>
+            </div>
+            <label style={{ color: "#ffffff" }} htmlFor="fname">
+              Order Price
+            </label>
+            {markethidden ? (
+              <input
+                type="text"
+                id="disabled-input"
+                aria-label="Choose limit order to change price"
+                className="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value=""
+                disabled
+              ></input>
+            ) : (
+              <input
+                onChange={(e) => setorder_price(Number(e.target.value))}
+                type="text"
+                id="fname"
+                name="order_price"
+                placeholder="price of order"
+              ></input>
+            )}
+            <label style={{ color: "#ffffff" }} htmlFor="fname">
+              Order Size
+            </label>
+            <input
+              onChange={(e) => setorder_size(e.target.value)}
+              type="text"
+              id="fname"
+              name="order_size"
+              placeholder="size of order"
+            ></input>
+            <div className="flex flex-col justify-center">
+            <div
+              className="flex flex-row..."
+              style={{ justifyContent: "center" }}
+            >
+              <div className={"buytab"} style={{ justifyContent: "center" }}>
+                <button
+                  onClick={() => setorder_side("BUY")}
+                  className={"tablinks"}
+                >
+                  Buy
+                </button>
+              </div>
+              <div className={"selltab"} style={{ justifyContent: "center" }}>
+                <button
+                  onClick={() => setorder_side("SELL")}
+                  className={"tablinks"}
+                >
+                  Sell
+                </button>
+              </div>
+              </div>
+              <button type="button" onClick={() => Postacc()} className=" m-4 border-2 border-slate-200 text-white bg-transparent hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                <div>
+                  {loading ? (
+                    <Spin indicator={antIcon} className="add-spinner" />
+                  ) : (
+                    "Place Order"
+                  )}
+                </div>
+              </button>
           </div>
-          {markethidden ? (
-            <div
-              className={"Rexcard"}
-              style={{ width: '400px', maxWidth: "400px", minWidth: "300px", height: "400px" }}
-            >
-              <div id="Limit" className="tabcontent">
-                <h3>Market Order</h3>
-                <label style={{ color: "#ffffff" }} htmlFor="fname">
-                  Order Size
-                </label>
-                <input
-                  onChange={(e) => setorder_size(e.target.value)}
-                  type="text"
-                  id="fname"
-                  name="order_size"
-                  placeholder="size of order"
-                ></input>
-                <div
-                  className={"flexbox-container"}
-                  style={{ justifyContent: "center" }}
-                >
-                  <div
-                    className={"buytab"}
-                    style={{ justifyContent: "center" }}
-                  >
-                    <button
-                      onClick={() => setorder_side("BUY")}
-                      className={"tablinks"}
-                    >
-                      Buy
-                    </button>
-                  </div>
-                  <div
-                    className={"selltab"}
-                    style={{ justifyContent: "center" }}
-                  >
-                    <button
-                      onClick={() => setorder_side("SELL")}
-                      className={"tablinks"}
-                    >
-                      Sell
-                    </button>
-                  </div>
-                </div>
-                <button
-                  style={{ marginTop: "10px", color: "#ffffff" }}
-                  className={"Form-button-input"}
-                  onClick={() => Postacc()}
-                >
-                  <div>
-                    {loading ? (
-                      <Spin indicator={antIcon} className="add-spinner" />
-                    ) : (
-                      "Place Order"
-                    )}
-                  </div>
-                </button>
-              </div>
-            </div>
-          ) : (
-            <></>
-          )}
-
-          {limithidden ? (
-            <div
-              className={"Rexcard"}
-              style={{ maxWidth: "400px", width: "400px", height: "400px" }}
-            >
-              <div id="Limit" className="tabcontent">
-                <h3>Limit Order</h3>
-                <label style={{ color: "#ffffff" }} htmlFor="fname">
-                  Order Price
-                </label>
-                <input
-                  onChange={(e) => setorder_price(Number(e.target.value))}
-                  type="text"
-                  id="fname"
-                  name="order_price"
-                  placeholder="price of order"
-                ></input>
-
-                <label style={{ color: "#ffffff" }} htmlFor="fname">
-                  Order Size
-                </label>
-                <input
-                  onChange={(e) => setorder_size(e.target.value)}
-                  type="text"
-                  id="fname"
-                  name="order_size"
-                  placeholder="size of order"
-                ></input>
-                <div
-                  className={"flexbox-container"}
-                  style={{ justifyContent: "center" }}
-                >
-                  <div
-                    className={"buytab"}
-                    style={{ justifyContent: "center" }}
-                  >
-                    <button
-                      onClick={() => setorder_side("BUY")}
-                      className={"tablinks"}
-                    >
-                      Buy
-                    </button>
-                  </div>
-                  <div
-                    className={"selltab"}
-                    style={{ justifyContent: "center" }}
-                  >
-                    <button
-                      onClick={() => setorder_side("SELL")}
-                      className={"tablinks"}
-                    >
-                      Sell
-                    </button>
-                  </div>
-                </div>
-                <button
-                  style={{ marginTop: "10px", color: "#ffffff" }}
-                  className={"Form-button-input"}
-                  onClick={() => Postacc()}
-                >
-                  <div>
-                    {loading ? (
-                      <Spin indicator={antIcon} className="add-spinner" />
-                    ) : (
-                      "Place Order"
-                    )}
-                  </div>
-                </button>
-              </div>
-            </div>
-          ) : (
-            <></>
-          )}
+          </div>
         </div>
         <div
           className={"Rexcard"}
-          style={{ paddingTop: "50px", marginTop: '50px', maxWidth: "400px", width: "400px", height: "500px" }}
+          style={{
+            paddingTop: "50px",
+            marginTop: "50px",
+            maxWidth: "400px",
+            width: "400px",
+            height: "500px",
+          }}
         >
           <div className={"flexbox-vertical-container"}>
             <h1> Orderbook </h1>
