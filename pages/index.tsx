@@ -100,20 +100,23 @@ const Home: NextPage = () => {
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   <div className="rounded-md shadow">
+                    <Link href="/Dapp/ExchangePage">
                     <a
-                      href="#"
+                      
                       className="flex w-full items-center elevation-10 justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
                     >
                       MVP
                     </a>
+                </Link>
                   </div>
                   <div className="mt-3 sm:mt-0 sm:ml-3">
-                    <a
-                      href="#"
+                  <Link href="/ContactUs/ContactUsForm">
+                  <a
                       className="flex w-full elevation-10 items-center justify-center rounded-md border border-transparent bg-indigo-100 px-8 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-200 md:py-4 md:px-10 md:text-lg js-show-on-scroll"
                     >
-                      Live demo
+                      Contact Us
                     </a>
+                </Link>
                   </div>
                 </div>
               </div>

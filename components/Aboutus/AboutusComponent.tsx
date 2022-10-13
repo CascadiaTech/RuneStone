@@ -14,10 +14,10 @@ export default function AboutusComponent() {
   return (
     <>
       <div className="flex flex-col text-center">
-        <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white js-show-on-scroll">
+        <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white-900 md:text-5xl lg:text-6xl dark:text-white js-show-on-scroll">
           Why Real Estate?
         </h1>
-        <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 js-show-on-scroll">
+        <p className="mb-6 text-lg font-normal text-white-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 js-show-on-scroll">
           Buying real estate has been a staple of our world economy for a
           plethora of reasons. To begin with, unlike fiat currency, there is a
           limited amount of real estate on earth that is quickly being depleted
@@ -32,10 +32,10 @@ export default function AboutusComponent() {
         </p>
       </div>
       <div className="flex flex-col text-center">
-        <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white js-show-on-scroll">
+        <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white-900 md:text-5xl lg:text-6xl dark:text-white js-show-on-scroll">
           Rex Is Making It Easy
         </h1>
-        <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 js-show-on-scroll">
+        <p className="mb-6 text-lg font-normal text-white-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 js-show-on-scroll">
           If getting into real estate is so great, why isn’t everybody doing it?
           Unfortunately, up until now, real estate has had many barriers to
           entry, including, but not limited to: high costs, lack of experience,
@@ -51,10 +51,10 @@ export default function AboutusComponent() {
         </p>
       </div>
       <div className="flex flex-col text-center">
-        <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white js-show-on-scroll">
-          Can I Tokenize My Property
+        <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white-900 md:text-5xl lg:text-6xl dark:text-white js-show-on-scroll">
+          Can I Tokenize My Property?
         </h1>
-        <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 js-show-on-scroll">
+        <p className="mb-6 text-lg font-normal text-white-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 js-show-on-scroll">
           Property owners also have many incentives to tokenize their
           properties. Aside from the liquidity REX provides, property owners can
           also easily maintain control of a property while selling a small part

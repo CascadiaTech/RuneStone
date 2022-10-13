@@ -16,10 +16,10 @@ export default function Aboutus() {
     <>
     <HeaderComponent></HeaderComponent>
       <div className="flex flex-col text-center mt-20">
-        <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+        <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white-900 md:text-5xl lg:text-6xl dark:text-white">
           About Us
         </h1>
-        <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
+        <p className="mb-6 text-lg font-normal text-white-500 lg:text-xl sm:px-16 xl:px-48 dark:text-white-400">
           For hundreds of years, real estate has been a primary hedge against
           inflation in every market across the world. However, getting into real
           estate has also always had a high entry cost, forbidding many from
@@ -107,7 +107,7 @@ export default function Aboutus() {
               Expansion
               </h5>
             </a>
-            <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
+            <p className="mb-3 font-normal text-gray-500 dark:text-grey-400">
             Not only do we aim to provide a tokenized real estate exchange on a global level, we aim to provide tokenized real estate services on every industry level through vertical integration
             </p>
           </div>

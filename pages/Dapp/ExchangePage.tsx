@@ -12,6 +12,7 @@ import { AdvancedChart } from "../../components/react-tradingview-embed";
 //        <AdvancedChart widgetProps={{ width: '700px', height: '500px', symbol: 'BITMEX:ETHUSDT', theme: 'dark' }} />
 import Swal from "sweetalert2";
 import HeaderComponent from "../../components/Header/HeaderComponent";
+import ChartComponent from "./Chart";
 
 //import Rex_logo from '../../assets/images/REX_logo.png'
 
@@ -46,12 +47,17 @@ const Exchange = () => {
   const [markethidden, setismarkethidden] = useState(false);
   const [cancelorderid, setcancelorderid] = useState(Number);
 
-  const Parent = () => useMemo(() => <AdvancedChart             widgetProps={{
-    width: "700px",
-    height: "500px",
-    symbol: "BITMEX:ETHUSDT",
-    theme: "dark",
-  }} />, []); 
+  function ChartComponent(){
+    
+    return( <AdvancedChart             widgetProps={{
+        width: "700px",
+        height: "500px",
+        symbol: "BITMEX:ETHUSDT",
+        theme: "dark",
+      }} />)
+}
+
+const calculation = useMemo(() => ChartComponent(), [orderbook])
 
   function toggleHidden() {
     setishidden(!ishidden);
@@ -312,7 +318,7 @@ const Exchange = () => {
             paddingTop: "50px",
           }}
         >
-          <Parent></Parent>
+         {calculation}
           <div
             style={{ justifyContent: "center" }}
             className={"flexbox-vertical-container"}
