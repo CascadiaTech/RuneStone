@@ -36,7 +36,7 @@ const Exchange = () => {
   const [ishidden, setishidden] = useState(Boolean);
   const [orderbook, setorderbook] = useState<any[]>([]);
   const [order_side, setorder_side] = useState(String);
-  const [order_size, setorder_size] = useState(String);
+  const [order_size, setorder_size] = useState(Number);
   const [orderplaced, setorderplaced] = useState(Boolean);
   const [TradingPair, setasset_market] = useState(String);
   const [order_price, setorder_price] = useState(Number);
@@ -122,6 +122,23 @@ const Exchange = () => {
       });
       return;
     }
+    if (order_size !> 0 ) {
+      Swal.fire({
+        icon: "error",
+        title: " Please fill in all fields before submitting",
+        text: "You cannot submit an order with no order size",
+      });
+      return;
+    }
+    if (order_side == "LIMIT" && !order_price) {
+      Swal.fire({
+        icon: "error",
+        title: " Please fill in all fields before submitting",
+        text: "You must submit a price with a limit order",
+      });
+      return;
+    }
+
     try {
       setLoading(true);
       const options = {
@@ -282,9 +299,6 @@ const Exchange = () => {
         : console.log("customer has no orders");
     });
   }, [orderbook]);
-  useEffect(() => {
-    setismarkethidden(!markethidden);
-  }, []);
 
   const arrofids = orderonbook.map((i: any) => {
     return (
@@ -409,7 +423,7 @@ const Exchange = () => {
               Order Size
             </label>
             <input
-              onChange={(e) => setorder_size(e.target.value)}
+              onChange={(e) => setorder_size(Number(e.target.value))}
               type="text"
               id="fname"
               name="order_size"
