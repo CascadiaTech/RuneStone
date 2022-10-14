@@ -59,7 +59,7 @@ const Home: NextPage = () => {
           {" "}
           <HeaderComponent></HeaderComponent>
         </header>
-        <div className="mx-auto max-w-7xl w-screen">
+        <div className="sm:mt-40 md:mt-0 mx-auto max-w-full w-screen">
           <div className="relative z-10 bg-white pb-8 sm:pb-16 md:pb-20 lg:w-full lg:max-w-2xl lg:pb-28 xl:pb-32">
             <div>
               <div className="relative px-4 pt-6 sm:px-6 lg:px-8">
