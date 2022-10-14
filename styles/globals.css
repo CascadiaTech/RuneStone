@@ -111,15 +111,12 @@ transition: 1s;
 
 .Form-button{
   text-align: center;
-  width: 25vw;
   min-width: 100px;
-  max-width: 25vw;
   color: rgba(240, 240, 240, 0.977); 
   background-color: transparent;
   border-color: rgba(0, 0, 0, 0.979); 
   border-radius: 10px;
   font-weight: 600;
-  margin-left: 10vw;
   border: 2px solid;
   max-height: 6vh;
   height: 6vh;
@@ -557,6 +554,7 @@ button[type=submit]:hover {
           border: 2px solid;
           max-height: 6vh;
           height: 6vh;
+          align-self: 'center';
           justify-content: center;
           transition: 0.5s;
           cursor: pointer;
@@ -609,7 +607,6 @@ button[type=submit]:hover {
           min-width: '300px';
           background-color: #070F15;
           border-color: rgba(2, 255, 183, 0.897);
-          border-radius: 10px;
           padding-left: 5%;
           padding-right: 5%;
           transition: 1s;
@@ -730,14 +727,6 @@ button[type=submit]:hover {
           height: 'auto';
           align-self: 'right';
          }
-         .Animeverseblackheadertext{
-          color: #ffffff;
-          font-weight: 700;
-          position: relative;
-          font-style: underline;
-          top: 0;
-          transition: 0.5s;
-        }
 
         .MakeItNice {
           font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -906,16 +895,4 @@ section .text-container .text-box h3{
   section .text-container{
     flex-direction: column;
   }
-}
-
-.reveal{
-  position: relative;
-  transform: translateY(150px);
-  opacity: 0;
-  transition: 1s all ease;
-}
-
-.reveal.active{
-  transform: translateY(0);
-  opacity: 1;
 }
