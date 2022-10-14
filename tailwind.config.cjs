@@ -18,6 +18,9 @@ module.exports = {
       '2xl': '1536px',
     },
     extend: {
+      height: {
+        '1000': '1000px',
+      },
       animation: {
         fadeIn: "fadeIn 2s ease-in forwards"
       },

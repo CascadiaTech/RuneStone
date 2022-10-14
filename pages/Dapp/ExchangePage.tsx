@@ -50,8 +50,6 @@ const Exchange = () => {
     return (
       <AdvancedChart
         widgetProps={{
-          width: "700px",
-          height: "500px",
           symbol: "BITMEX:ETHUSDT",
           theme: "dark",
         }}
@@ -308,23 +306,15 @@ const Exchange = () => {
     <>
       <HeaderComponent></HeaderComponent>
       <div
-        className={"flexbox-container"}
-        style={{ color: "#000000", justifyContent: "left", paddingTop: "50px" }}
+        className="sm:flex flex-row mt-20 md:flex-row..."
+        style={{ color: "#000000", justifyContent: "left", paddingTop: "50px"}}
       >
-        <div
-          className={"flexbox-vertical-container"}
-          style={{
-            color: "#000000",
-            textAlign: "left",
-            justifyContent: "left",
-            paddingTop: "50px",
-          }}
-        >
-          {Chart}
+          
           <div
-            style={{ justifyContent: "center" }}
-            className={"flexbox-vertical-container"}
+            style={{ justifyContent: "center", marginTop: '50px' }}
+            className="sm:mt-48 flex flex-col w-screen md:flex flex-col w-screen"
           >
+            {Chart}
             <p
               style={{
                 paddingTop: "2vh",
@@ -342,9 +332,6 @@ const Exchange = () => {
                 className={"tablinks"}
               >
                 Your Orders
-              </button>
-              <button onClick={() => handlelimitclick()} className={"tablinks"}>
-                Trade History
               </button>
               <button
                 onClick={() => handlecancelclick()}
@@ -378,13 +365,10 @@ const Exchange = () => {
               <></>
             )}
           </div>
-        </div>
-        <div
-          style={{ justifyContent: "center" }}
-          className={"flexbox-vertical-container"}
-        >
-          <div className={"Rexcard"}>
+          <div className="flex flex-col justify-center md:flex flex-row justify-center mb-48">
+          <div className="mt-48 bg-[#070F15] block p-6 text-center w-96 h-fit bg-white  border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
             <div className=" mb-10 justify-center py-2 flex flex-row...">
+              
               <button
                 onClick={() => handlemarketclick()}
                 type="button"
@@ -465,19 +449,9 @@ const Exchange = () => {
           </div>
           </div>
         </div>
-        <div
-          className={"Rexcard"}
-          style={{
-            paddingTop: "50px",
-            marginTop: "50px",
-            maxWidth: "400px",
-            width: "400px",
-            height: "500px",
-          }}
-        >
-          <div className={"flexbox-vertical-container"}>
-            <h1> Orderbook </h1>
-            {bookcalled ? (
+        <a href="#" className="mt-48 bg-[#070F15] block p-6 text-center w-96 h-fit bg-white  border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <h5 className="mb-2 text-center justify-center text-2xl font-bold tracking-tight text-white dark:text-white">OrderBook</h5>
+    <p className="font-normal text-gray-700 dark:text-gray-400">{bookcalled ? (
               <OrderBook
                 book={{ bids: book?.bids, asks: book?.asks }}
                 fullOpacity
@@ -493,9 +467,8 @@ const Exchange = () => {
                 listLength={10}
                 stylePrefix={"MakeItNice"}
               />
-            )}
-          </div>
-        </div>
+            )}</p>
+</a>
       </div>
     </>
   );

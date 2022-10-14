@@ -604,7 +604,6 @@ button[type=submit]:hover {
           border-width: 1px;
           font-size: calc(3 * (0.3vw + 0.3vh));
           color: #ffffff;
-          min-width: '300px';
           background-color: #070F15;
           border-color: rgba(2, 255, 183, 0.897);
           padding-left: 5%;
