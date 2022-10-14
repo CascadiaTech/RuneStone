@@ -13,7 +13,7 @@ export default function DualCardComponent() {
   return (
     <div>
       <div className="flex space-y-8 my-20 js-show-on-scroll justify-center flex-col ... ">
-        <div className="flex space-x-4 justify-between flex-col md:flex-row ...">
+        <div className="flex justify-between flex-col md:flex-row ...">
           <div className="p-6 max-w-sm elevation-10 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

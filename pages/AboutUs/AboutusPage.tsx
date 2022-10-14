@@ -15,7 +15,7 @@ export default function Aboutus() {
   return (
     <>
     <HeaderComponent></HeaderComponent>
-      <div className="flex flex-col text-center mt-20">
+      <div className="flex flex-col text-center mt-48 justify-center">
         <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white-900 md:text-5xl lg:text-6xl dark:text-white">
           About Us
         </h1>
@@ -36,7 +36,7 @@ export default function Aboutus() {
         </p>
       </div>
       <div className="flex space-y-8 my-20 js-show-on-scroll justify-center flex-col ... ">
-        <div className="flex space-x-4 justify-between flex-col md:flex-row ...">
+        <div className="flex justify-between flex-col md:flex-row ...">
           <div className="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
             <svg
               className="mb-2 w-10 h-10 text-gray-500 dark:text-gray-400"
