@@ -29,6 +29,9 @@ const Exchange = () => {
   const [bookcalled, setbookcalled] = useState(false);
   const bidsorderlist: any[] = [];
   const asksorderlist: any[] = [];
+
+  const sortedbidsorderlist: any[] = [];
+  const sortedasksorderlist: any[] = [];
   //const [chart, setchart] = useState(html)
   const [book, setbook] = useState(Object);
   const [orderonbook, setorderonbook] = useState<any[]>([]);
@@ -122,7 +125,7 @@ const Exchange = () => {
       });
       return;
     }
-    if (order_size !> 0 ) {
+    if (order_size == 0 ) {
       Swal.fire({
         icon: "error",
         title: " Please fill in all fields before submitting",
@@ -241,7 +244,9 @@ const Exchange = () => {
         console.log(orderbook);
         orderbook.forEach((element: any) => {
           element.order_side === "BUY" && element.order_variant === "LIMIT"
-            ? bidsorderlist.push([
+            ? sortedbidsorderlist.push(element.order_price) &&
+            //sortedbidsorderlist.sort((a: number, b: number) => a - b) &&
+            bidsorderlist.push([
                 JSON.stringify(element.order_price),
                 element.order_size,
               ]) //&& bidsize.push(element.order_size)
@@ -250,7 +255,13 @@ const Exchange = () => {
                 element.order_size,
               ]); //&& asksize.push(element.order_size)
         });
+        //asks[n].sort((a, b) => a - b)
         const bidbook = await asksorderlist.reverse();
+        //for (let i = 0; i < bidbook.length; i++) {
+       //   console.log(bidbook[i][0])
+        //  sortedbidsorderlist.push([bidbook[i][0]])
+        //  console.log(sortedbidsorderlist.sort((a, b) => a - b))
+        //}
         const askbook = await bidsorderlist.reverse();
         const thebook = {
           bids: askbook,
@@ -270,16 +281,6 @@ const Exchange = () => {
     Setbook();
   }, [orderbook]);
 
-  const testbook = {
-    asks: [
-      ["1.01", "2"],
-      ["1.02", "3"],
-    ],
-    bids: [
-      ["0.99", "5"],
-      ["0.98", "3"],
-    ],
-  };
   const testbook2 = {
     asks: [
       ["1.0342", "243"],
@@ -290,7 +291,6 @@ const Exchange = () => {
       ["10.98", "3"],
     ],
   };
-  console.log(testbook);
 
   useEffect(() => {
     orderbook.forEach((element: any) => {
@@ -412,8 +412,9 @@ const Exchange = () => {
               ></input>
             ) : (
               <input
-                onChange={(e) => setorder_price(Number(e.target.value))}
-                type="text"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                onChange={(e) => { if (Number(e.target.value) > 0) {setorder_price(Number(e.target.value))}}}
+                type="number"
                 id="fname"
                 name="order_price"
                 placeholder="price of order"
@@ -423,8 +424,9 @@ const Exchange = () => {
               Order Size
             </label>
             <input
-              onChange={(e) => setorder_size(Number(e.target.value))}
-              type="text"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              onChange={(e) => { if (Number(e.target.value) > 0) {setorder_size(Number(e.target.value))}}}
+              type="number"
               id="fname"
               name="order_size"
               placeholder="size of order"
