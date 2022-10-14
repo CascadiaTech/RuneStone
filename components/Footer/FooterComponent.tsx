@@ -64,7 +64,7 @@ export default function FooterComponent() {
               <ul className="text-gray-600 dark:text-gray-400">
                 <li className="mb-4">
                   <a href="https://flowbite.com/" className="hover:underline">
-                    RexProtocol
+                    REX Protocol
                   </a>
                 </li>
                 <li>
