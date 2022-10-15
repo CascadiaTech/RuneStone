@@ -33,7 +33,7 @@ export default function AboutusComponent() {
       </div>
       <div className="flex flex-col text-center">
         <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white-900 md:text-5xl lg:text-6xl dark:text-white js-show-on-scroll">
-          Rex Is Making It Easy
+          REX Is Making It Easy
         </h1>
         <p className="mb-6 text-lg font-normal text-white-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 js-show-on-scroll">
           If getting into real estate is so great, why isn’t everybody doing it?
