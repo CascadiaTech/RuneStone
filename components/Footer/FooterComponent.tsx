@@ -53,7 +53,7 @@ export default function FooterComponent() {
 
   return (
     <div>
-      <footer className="p-4 bg-white sm:p-6 dark:bg-gray-900 w-screen">
+      <footer className="p-4 bg-black sm:p-6 dark:bg-gray-900 w-screen">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0"></div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -64,7 +64,7 @@ export default function FooterComponent() {
               <ul className="text-gray-600 dark:text-gray-400">
                 <li className="mb-4">
                   <a href="/" className="hover:underline">
-                    REX Protocol
+                    RuneStone
                   </a>
                 </li>
                 <li>
@@ -84,7 +84,7 @@ export default function FooterComponent() {
               <ul className="text-gray-600 dark:text-gray-400">
                 <li className="mb-4">
                   <a
-                    href="https://t.me/+JXVbIJJJemliMjY5"
+                    href="https://t.me/RunestonePortal"
                     className="hover:underline "
                   >
                     Telegram
@@ -111,13 +111,13 @@ export default function FooterComponent() {
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
             © 2022{" "}
             <a href="/" className="hover:underline">
-              Rex Protocol
+              Rune Stone
             </a>
             . All Rights Reserved.
           </span>
           <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
             <a
-              href="https://www.reddit.com/r/REXProtocol/"
+              href=""
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
             >
               <svg
@@ -135,7 +135,7 @@ export default function FooterComponent() {
               <span className="sr-only">Reddit page</span>
             </a>
             <a
-              href="https://twitter.com/REXProtocol"
+              href="https://twitter.com/runestonetoken"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
             >
               <svg
@@ -149,7 +149,7 @@ export default function FooterComponent() {
               <span className="sr-only">Twitter page</span>
             </a>
             <a
-              href="https://github.com/CascadiaTech/RexProtocol"
+              href=""
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
             >
               <svg

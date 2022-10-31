@@ -17,7 +17,20 @@ module.exports = {
       xl: '1280px',
       '2xl': '1536px',
     },
+
     extend: {
+      spacing: {
+        '100': '50vw',
+      },
+      fontFamily: {
+        'serif': ['Cinzel', 'serif'],
+
+      },
+      clipPath: {
+        mypolygon: 'polygon(0 0, 100% 0, 0% 100%, 0 calc(100% - 6vw))',
+        myoppositepolygon: 'polygon(100% 0, 100% 0, 100% 100%, 0 calc(100% - 0vw))',
+        mycorners: 'polygon(20px 0%, calc(100% - 20px) 0%, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0% calc(100% - 20px), 0% 20px)',
+    },
       height: {
         '1000': '1000px',
       },
@@ -35,6 +48,6 @@ module.exports = {
   variants: {
     animation: ["motion-safe"]
 },
-  plugins: [require('tailwindcss-elevation')(['responsive']), require('tw-elements/dist/plugin'), require("flowbite/plugin")],
+  plugins: [require('tailwindcss-elevation')(['responsive']), require('tw-elements/dist/plugin'), require("flowbite/plugin"), require('tailwind-clip-path'),],
 }
 
