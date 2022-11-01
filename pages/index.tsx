@@ -5,9 +5,6 @@ import styles from "../styles/Home.module.css";
 import HeaderComponent from "../components/Header/HeaderComponent";
 import "tailwindcss-elevation";
 import FooterComponent from "../components/Footer/FooterComponent";
-import Link from "next/link";
-import city from "../assets/images/city.jpeg";
-import city3 from "../assets/images/city3.jpeg";
 import DualCardComponent from "../components/DualCards/DualCardComponent";
 import ScrollpositionAnimation from "../hooks/OnScroll";
 import { useEffect, useState } from "react";
@@ -78,16 +75,20 @@ const Home: NextPage = () => {
   });
 
   return (
-    <div>
+    <div className="bg-runewaterfall">
       <div className={styles.container}>
         <main className={styles.main}>
           <header>
             {" "}
             <HeaderComponent></HeaderComponent>
           </header>
-          <div className=" flex flex-col bg-black object-center justify-center align-center h-auto w-screen">
+          <div className=" flex flex-col bg-black object-end justify-end align-end h-auto w-screen">
+            <div className="flex flex-row w-screen object-right content-end justify-end justify-items-end ">
+            <Image className='float-right clip-path-clipcorners self-end place-content-end justify-self-end z-index-0 justify-right align-right' src={Falls}></Image>
+            </div>
+            <h1 className="text-3xl justify-end text-end">Rune Stone </h1>
             
-            <Image className='justify-self-center justify-center align-center' width={1500} height={2500}  src={Falls}></Image>
+
             <div className="justify-center justify-self-center align-center z-index-50 md:justify-center justify-self-center align-center z-index-50 -translate-y-96">
               <h1> hello </h1>
             {uniswaprovider ? (
