@@ -18,18 +18,21 @@ export default function MintCardComponent() {
       </div>
       <h5
         style={{ fontFamily: "Cinzel, serif" }}
-        className="mt-12 text-2xl sm:text-3xl mb:mb-2 text-4xl font-bold text-right mr-12 tracking-tight text-white-900 dark:text-white"
+        className="mt-12 text-2xl sm:text-3xl mb:mb-2 text-4xl font-bold text-right mr-12 tracking-tight text-gray-100 dark:text-white"
       >
         RuneStone NFT
       </h5>
       <button
         style={{ fontFamily: "Cinzel, serif" }}
         type="button"
-        className="w-screen elevation-10 hover:elevation-50 md:w-96 h-24 clip-path-mycorners justify-self-start mt-10 text-white bg-blue-700 transition ease-in-out duration-700 hover:scale-105 bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 text-3xl"
+        className="w-screen elevation-10 hover:elevation-50 md:w-96 h-24 clip-path-mycorners justify-self-start mt-10
+        text-gray-100 bg-blue-700 transition ease-in-out duration-700 hover:scale-105 bg-blue-800 focus:ring-4
+        focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 
+        focus:outline-none dark:focus:ring-blue-800 text-3xl"
       >
         Mint
       </button>
-      <p className="sm:mr-16 mt-10 text-right font-normal text-white-700 dark:text-gray-400">
+      <p className="sm:mr-16 mt-10 text-right font-normal text-white dark:text-gray-400">
         You can ony mint 1 NFT per wallet
       </p>
       <div className="flex flex-row items-right mt-10 justify-end w-screen">

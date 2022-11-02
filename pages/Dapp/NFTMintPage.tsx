@@ -63,7 +63,7 @@ const NFTMint = () => {
           src={bloodred}
         ></Image>
         <div className="flex flex-col sm:content-start absolute z-index-10 justify-self-end justify-right align-right w-screen text-right">
-          <h1 style={{ fontFamily: "Cinzel, serif" }} className="text-center text-5xl mt-12 mr-5 md:text-5xl pr-5 text-right"> RuneStone </h1>
+          <h1 style={{ fontFamily: "Cinzel, serif" }} className="text-center text-5xl text-gray-100 mt-12 mr-5 md:text-5xl pr-5 text-right"> RuneStone </h1>
           <MintCardComponent></MintCardComponent>
         </div>
 
