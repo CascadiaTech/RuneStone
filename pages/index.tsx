@@ -148,9 +148,12 @@ const Home: NextPage = () => {
              </h5>
              <p className={'my-20'}></p>
             <div className={'flex flex col object-left justify-start'}> 
-             <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">Tony Stark</button>
-             <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">Ima go Larpin</button>
-             <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">Buncha Starch</button>
+             <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 
+             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">Website</button>
+             <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 
+             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">OpenSea</button>
+             <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 
+             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">Purchase</button>
             </div> 
          </div>
             
@@ -169,6 +172,16 @@ const Home: NextPage = () => {
             <div className="flex flex-col z-index-50 -translate-y-96 sm:flex-col md:flex-row lg:flex-row">
             {uniswaprovider ? (
           <>
+          <div className={'self-center'}>
+            <div style={{ boxShadow: '0px 0px 3px 2px rgba(255, 255, 255, 0.6)' }} 
+              className={'justify-center border border-white px-6 text-center mt-10 mb-10 mx auto md:mt-0 md:mb-0 md:mr-6 lg:mr-14'}>
+              <h4 className={' font-bold tracking-tight text-4xl sm:text-3xl md:text-3xl lg:text-4xl'}
+              style={{ fontFamily: "Cinzel, serif" }}>
+              Don't have RuneToken? Buy some here! <br /> Connect your wallet to purchase
+              </h4>
+              </div>
+          </div>
+
         <div className={''}>
           <div className="Uniswap mx-auto px-6 sm:px-6 md:px-12 lg:px-24">
               <SwapWidget
@@ -179,14 +192,6 @@ const Home: NextPage = () => {
                 defaultOutputTokenAddress={Runeaddress} />
             </div>
         </div>
-            <div className={'self-center'}>
-            <div style={{ boxShadow: '0px 0px 3px 2px rgba(255, 255, 255, 0.6)' }} 
-              className={'justify-center border border-white px-6 text-center mt-10 mx auto md:mt-0 md:mr-6 lg:mr-14'}>
-              <p className={'text-4xl sm:text-3xl md:text-3xl lg:text-4xl'} style={{ fontFamily: "Cinzel, serif" }}>
-              Don't have RuneToken? Buy some here! <br /> Connect your wallet to purchase
-              </p>
-              </div>
-            </div>
           </>
         ) : (
           <></>
