@@ -36,7 +36,7 @@ export default function HeaderComponent() {
               </Dropdown.Item>
               <Dropdown.Item>
               <Link href="/Dapp/NFTMintPage">
-                  <p className=" cursor-pointer block py-2 pr-4 pl-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                  <p className=" cursor-pointer block py-2 pr-4 pl-3 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     Mint
                   </p>
                 </Link>
@@ -44,7 +44,7 @@ export default function HeaderComponent() {
               <Dropdown.Divider />
               <Dropdown.Item>
               <Link href="/ContactUs/ContactUsForm">
-                  <p className=" cursor-pointer block py-2 pr-3 pl-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                  <p className=" cursor-pointer block py-2 pr-3 pl-3 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     Contact Us
                   </p>
                 </Link>
@@ -87,3 +87,4 @@ export default function HeaderComponent() {
     </div>
   );
 }
+//{CheckBalance > 50 ? MintPage : <></>}
