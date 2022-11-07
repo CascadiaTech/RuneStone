@@ -110,7 +110,7 @@ export default function ClaimComponent() {
       const signer = signingprovider.getSigner()
       const contractaddress = '0x5a8F92addfe1Cd48B51E1FA926144C0918DBAb67' // "clienttokenaddress"
       const contract = new Contract(contractaddress, abi, signer)
-      const ClaimBalance = await contract.claimone(tokenaddress) //.claim(account,amount)
+      const ClaimBalance = await contract.claimall(tokenaddress) //.claim(account,amount)
       const final = await signer.signTransaction(ClaimBalance)
       const Claimtxid = await final
 
@@ -148,7 +148,7 @@ export default function ClaimComponent() {
   <div>
 <Accordion style={{ border: 'transparent'}} alwaysOpen={true}>
 <Accordion.Panel>
-    <Accordion.Title className={'mx-auto flex flex col w-screen hover:text-black' } style={{ color: '#717171', fontSize: '20px',
+    <Accordion.Title className={' ' } style={{ color: '#717171', fontSize: '20px',
      justifyContent: 'center' }}>
     <p> Meow Meow Token!</p>
     </Accordion.Title>
