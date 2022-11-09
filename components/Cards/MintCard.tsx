@@ -12,7 +12,7 @@ export default function MintCardComponent() {
   }
   //md:clip-path-clipsides border-t-4 border-b-4
   return (
-    <div className="h-96 mt-56 js-show-on-scroll relative justify-self-auto w-full md:absolute justify-self-end  pr-10 md:mt-80 z-index-50 content-start justify-start items-right mb-60 bg-transparent shadow-md hover:bg-white-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <div className="h-96 mt-56 relative justify-self-auto w-full md:absolute justify-self-end  pr-10 md:mt-80 z-index-50 content-start justify-start items-right mb-60 bg-transparent shadow-md hover:bg-white-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
       <div className="flex flex-row items-right justify-end w-screen">
         <div className="invisible sm:invisible md:visible w-1/3 lg:visible justify-self-end content-end justify-right bg-white h-2 rounded-full w-1/2"></div>
       </div>

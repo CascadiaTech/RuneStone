@@ -1,15 +1,103 @@
-//import 'tw-elements'
+import styles from "../styles/Home.module.css";
 import "tailwindcss-elevation";
-//import { Stickynavbar } from 'flowbite-react'
-
-//const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
-import React from "react";
-//import Image from "next/image";
-import Link from "next/link";
+import ScrollpositionAnimation from "../../hooks/OnScroll";
+import { useEffect, useState } from "react";
+import "@uniswap/widgets/fonts.css";
+import { useWeb3React } from "@web3-react/core";
+import { abiObject }  from '../../contracts/tokenabi.mjs'
+import { Web3Provider, ExternalProvider, JsonRpcFetchFunc } from "@ethersproject/providers";
+import { Contract } from "@ethersproject/contracts";
+import { formatEther } from "@ethersproject/units"
+import Link from 'next/link'
 import { ConnectWallet } from "../Web3Modal/WalletConnect";
 import { Dropdown } from "flowbite-react";
+
 export default function HeaderComponent() {
-  //    backgroundImage: `url(${backgroundimage})`,
+  const { account } = useWeb3React();
+  const [loading, setLoading] = useState(false)
+  const context = useWeb3React();
+  const { library } = context;
+  const [balance, setbalance] = useState(Number);
+  const [price, setprice] = useState(String);
+  const [uniswaprovider, setuniswapprivder] = useState();
+  const Runeaddress = '0xc68a4c68f17fed266a5e39e7140650acadfe78f8';
+
+  if (typeof window !== "undefined") {
+    useEffect(() => {
+      // Update the document title using the browser API
+      ScrollpositionAnimation();
+    }, [window.scrollY]);
+  }
+
+  useEffect(() => {
+    async function setProvider() {
+      if (account) {
+        const provider = new Web3Provider(
+          library?.provider as ExternalProvider | JsonRpcFetchFunc
+        );
+        return provider;
+      } else {
+        return;
+      }
+    }
+    async function FetchPrice() {
+      try {
+        setLoading(true)
+        const response = await fetch(
+          'https://api.dexscreener.com/latest/dex/tokens/0xc68A4C68F17fed266A5e39e7140650acAdfE78F8'
+        ) // Api Key also the pair contract
+
+        const data = await response.json()
+        const prices = data.pairs
+        const test = prices.forEach((item: any) => {
+            setprice(String(item?.priceUsd))
+
+        })
+        await test
+        console.log(price)
+        return test
+      } catch (error) {
+        console.log(error)
+        setLoading(false)
+      } finally {
+        setLoading(false)
+      }
+    }
+    async function balanceOf() {
+      if (!account) {
+        console.log({ message: 'Hold On there Partner, there seems to be an Account err!' })
+        return
+      }
+  
+      try {
+        setLoading(true)
+        const abi = abiObject
+        const signingprovider = new Web3Provider(library?.provider)
+        const signer = signingprovider.getSigner()
+        const contractaddress = '0xc68A4C68F17fed266A5e39e7140650acAdfE78F8'// "clienttokenaddress"
+        const contract = new Contract(contractaddress, abi, signer)
+        const originalbalance = await new contract.balanceOf(account) //.claim(account,amount)
+        const Claimtxid = await originalbalance
+        const fixednumber = formatEther(Claimtxid)
+        const balances = Number(originalbalance)
+        const fuck = setbalance(1000000)
+        await fuck
+        console.log(balance)
+  
+        return balances
+        /////
+      } catch (error) {
+        console.log(error)
+        setLoading(false)
+      } finally {
+        setLoading(false)
+      }
+    }
+  
+    balanceOf()
+    FetchPrice()
+    setProvider().then((result) => setuniswapprivder(result as any));
+  },[account]);
 
   return (
     <div>
@@ -35,11 +123,11 @@ export default function HeaderComponent() {
                 </Link>
               </Dropdown.Item>
               <Dropdown.Item>
-              <Link href="/Dapp/NFTMintPage">
+              {balance * Number(price) >= 50 ? <><Link href="/Dapp/NFTMintPage">
                   <p className=" cursor-pointer block py-2 pr-4 pl-3 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     Mint
                   </p>
-                </Link>
+                </Link></> : <> <Link href="#BuySection"><a>Buy Here</a></Link> </>}
               </Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item>
@@ -47,7 +135,7 @@ export default function HeaderComponent() {
                   <p className=" cursor-pointer block py-2 pr-3 pl-3 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     Contact Us
                   </p>
-                </Link>
+              </Link>
               </Dropdown.Item>
             </Dropdown>
           </div>
@@ -67,11 +155,11 @@ export default function HeaderComponent() {
                 </Link>
               </li>
               <li>
-                <Link href="/Dapp/NFTMintPage">
+              {balance * Number(price) >= 50 ? <><Link href="/Dapp/NFTMintPage">
                   <p className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     Mint
                   </p>
-                </Link>
+                </Link></> : <> <Link href="#BuySection"><a>Buy Here</a></Link> </>}
               </li>
               <li>
                 <Link href="/ContactUs/ContactUsForm">

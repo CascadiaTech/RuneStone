@@ -59,7 +59,7 @@ const NFTMint = () => {
       <main className={styles.main}>
       <div className="flex flex-row w-screen">
       <Image
-          className="relative min-w-full float-left elevation-10 z-index-0 sm:clip-path-mypolygon"
+          className="relative min-w-full float-left elevation-10 z-index-0 md:clip-path-mypolygon"
           src={bloodred}
         ></Image>
         <div className="flex flex-col sm:content-start absolute z-index-10 justify-self-end justify-right align-right w-screen text-right">

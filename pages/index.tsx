@@ -18,23 +18,26 @@ import { Web3Provider, ExternalProvider, JsonRpcFetchFunc } from "@ethersproject
 import { Contract } from "@ethersproject/contracts";
 import { BigNumber } from "@ethersproject/bignumber";
 import { formatEther } from "@ethersproject/units"
+import Link from "next/link";
 
 const Home: NextPage = () => {
-  //if (typeof window !== "undefined") {
-  //  useEffect(() => {
-  // Update the document title using the browser API
-  //   ScrollpositionAnimation();
-  // }, [window.scrollY]);
-  /// }
   const { account } = useWeb3React();
   const [loading, setLoading] = useState(false)
   const showConnectAWallet = Boolean(!account);
   const context = useWeb3React();
   const { library } = context;
-  const [balance, setbalanceOf] = useState();
-  const [price, setprice] = useState();
+  const [balance, setbalanceOf] = useState(Number);
+  const [price, setprice] = useState(Number);
   const [uniswaprovider, setuniswapprivder] = useState();
   const Runeaddress = '0xc68a4c68f17fed266a5e39e7140650acadfe78f8'
+
+  if (typeof window !== "undefined") {
+    useEffect(() => {
+      // Update the document title using the browser API
+      ScrollpositionAnimation();
+    }, [window.scrollY]);
+  }
+
   useEffect(() => {
     async function setProvider() {
       if (account) {
@@ -55,10 +58,10 @@ const Home: NextPage = () => {
 
         const data = await response.json()
         const price = data.pairs
-        console.log(price)
         const test = price.forEach((item: any) => {
-          console.log(item.priceUsd)
         })
+        const finalprice = Number(price)
+        setprice(finalprice)
         return price
       } catch (error) {
         console.log(error)
@@ -83,7 +86,9 @@ const Home: NextPage = () => {
         const balance = await new contract.balanceOf(account) //.claim(account,amount)
         const Claimtxid = await balance
         const fixednumber = formatEther(balance)
-        console.log(fixednumber)
+        const finalbalance = Number(balance)
+        setbalanceOf(finalbalance)
+        console.log(finalbalance)
   
         return Claimtxid
         /////
@@ -94,6 +99,7 @@ const Home: NextPage = () => {
         setLoading(false)
       }
     }
+  
     balanceOf().then((result) => setbalanceOf(result as any));
     FetchPrice().then((result) => setprice(result as any));
     setProvider().then((result) => setuniswapprivder(result as any));
@@ -112,17 +118,17 @@ const Home: NextPage = () => {
           // Is the element in the viewport?
           if (entry.isIntersecting) {
             // Add the fadeIn class:
-            entry.target.classList.add("motion-safe:animate-fadeIn");
+            entry.target.classList.add("motion-safe:animate-fadeInLeft");
           } else {
             // Otherwise remove the fadein class
-            entry.target.classList.remove("motion-safe:animate-fadeIn");
+            entry.target.classList.remove("motion-safe:animate-fadeInLeft");
           }
         });
       });
       // Loop through each of the target
       targets.forEach(function (target) {
         // Hide the element
-        target.classList.add("opacity-0");
+        target.classList.add("transform-0");
 
         // Add the element to the watcher
         observer.observe(target);
@@ -149,11 +155,17 @@ const Home: NextPage = () => {
              <p className={'my-20'}></p>
             <div className={'flex flex col object-left justify-start'}> 
              <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 
-             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">Website</button>
+             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">
+              <a href="https://runestonetoken.com/">Website</a>
+             </button>
              <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 
-             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">OpenSea</button>
+             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">
+              <a href="opensea.io">OpenSea</a>
+             </button>
              <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 
-             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">Purchase</button>
+             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">
+              <Link href="#BuySection"><a>Buy Here</a></Link>
+             </button>
             </div> 
          </div>
             
@@ -167,21 +179,21 @@ const Home: NextPage = () => {
          </div>
      </div>
 
-        <main>
+        <main id="BuySection">
             <p className={' mt-44 mb-44 py-16'}></p>
             <div className="flex flex-col z-index-50 -translate-y-96 sm:flex-col md:flex-row lg:flex-row">
+            <div className={'self-center'}>
+            <div
+              className={'justify-center px-6 text-center mt-10 mb-10 mx auto md:mt-0 md:mb-0 md:mr-6 lg:mr-14'}>
+              <h4 className={' font-bold tracking-tight text-white text-4xl sm:text-3xl text-white md:text-3xl lg:text-4xl'}
+              style={{ fontFamily: "Cinzel, serif" }}>
+              You must purchase $50USD of RuneStone before accessing the
+              mint page, Buy some here! <br /> Connect your wallet to purchase
+              </h4>
+            </div>
+          </div>
             {uniswaprovider ? (
           <>
-          <div className={'self-center'}>
-            <div style={{ boxShadow: '0px 0px 3px 2px rgba(255, 255, 255, 0.6)' }} 
-              className={'justify-center border border-white px-6 text-center mt-10 mb-10 mx auto md:mt-0 md:mb-0 md:mr-6 lg:mr-14'}>
-              <h4 className={' font-bold tracking-tight text-4xl sm:text-3xl md:text-3xl lg:text-4xl'}
-              style={{ fontFamily: "Cinzel, serif" }}>
-              Don't have RuneToken? Buy some here! <br /> Connect your wallet to purchase
-              </h4>
-              </div>
-          </div>
-
         <div className={''}>
           <div className="Uniswap mx-auto px-6 sm:px-6 md:px-12 lg:px-24">
               <SwapWidget
@@ -205,3 +217,4 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+//style={{ boxShadow: '0px 0px 3px 2px rgba(255, 255, 255, 0.6)' }} 
