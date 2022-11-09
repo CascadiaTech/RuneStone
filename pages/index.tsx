@@ -18,6 +18,7 @@ import { Web3Provider, ExternalProvider, JsonRpcFetchFunc } from "@ethersproject
 import { Contract } from "@ethersproject/contracts";
 import { BigNumber } from "@ethersproject/bignumber";
 import { formatEther } from "@ethersproject/units"
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const { account } = useWeb3React();
@@ -154,11 +155,17 @@ const Home: NextPage = () => {
              <p className={'my-20'}></p>
             <div className={'flex flex col object-left justify-start'}> 
              <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 
-             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">Website</button>
+             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">
+              <a href="https://runestonetoken.com/">Website</a>
+             </button>
              <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 
-             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">OpenSea</button>
+             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">
+              <a href="opensea.io">OpenSea</a>
+             </button>
              <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 
-             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">Purchase</button>
+             focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">
+              <Link href="#BuySection"><a>Buy Here</a></Link>
+             </button>
             </div> 
          </div>
             
@@ -175,19 +182,18 @@ const Home: NextPage = () => {
         <main id="BuySection">
             <p className={' mt-44 mb-44 py-16'}></p>
             <div className="flex flex-col z-index-50 -translate-y-96 sm:flex-col md:flex-row lg:flex-row">
-            {uniswaprovider ? (
-          <>
-          <div className={'self-center'}>
-            <div style={{ boxShadow: '0px 0px 3px 2px rgba(255, 255, 255, 0.6)' }} 
+            <div className={'self-center'}>
+            <div
               className={'justify-center px-6 text-center mt-10 mb-10 mx auto md:mt-0 md:mb-0 md:mr-6 lg:mr-14'}>
               <h4 className={' font-bold tracking-tight text-white text-4xl sm:text-3xl text-white md:text-3xl lg:text-4xl'}
               style={{ fontFamily: "Cinzel, serif" }}>
               You must purchase $50USD of RuneStone before accessing the
               mint page, Buy some here! <br /> Connect your wallet to purchase
               </h4>
-              </div>
+            </div>
           </div>
-
+            {uniswaprovider ? (
+          <>
         <div className={''}>
           <div className="Uniswap mx-auto px-6 sm:px-6 md:px-12 lg:px-24">
               <SwapWidget
@@ -211,4 +217,4 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-//
+//style={{ boxShadow: '0px 0px 3px 2px rgba(255, 255, 255, 0.6)' }} 
