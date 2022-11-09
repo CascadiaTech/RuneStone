@@ -46,18 +46,18 @@ contract RuneStoneNFT is ERC721, Ownable {
 	string private notRevealedUri;
 
 	// Total supply
-	uint256 public constant MAX_SUPPLY = 10000;
+	uint256 public constant MAX_SUPPLY = 2000;
 
 	// Whitelist mint constants
 	bool public wlMintActive = false;
-	uint256 private constant WL_MAX_PER_WALLET = 1000; // 2/wallet (uses < to save gas)
+	uint256 private constant WL_MAX_PER_WALLET = 1; // 2/wallet (uses < to save gas)
 	//uint256 private constant WL_MINT_PRICE = 0.05 ether;
 	mapping(address => bool) private whitelists;
 
 
 	// Public mint constants
 	bool public pubMintActive = false;
-	uint256 private constant PUB_MAX_PER_WALLET = 10000; // 3/wallet (uses < to save gas)
+	uint256 private constant PUB_MAX_PER_WALLET = 1; // 3/wallet (uses < to save gas)
 	//uint256 private constant PUB_MINT_PRICE = 0.065 ether;
 
 	bool private _locked = false; // for re-entrancy guard
@@ -65,6 +65,9 @@ contract RuneStoneNFT is ERC721, Ownable {
     uint256 public WL_MINT_PRICE;
     uint256 public PUB_MINT_PRICE;
 
+	/// events
+	event minted(address to);
+	event Rewardsadded(address tokenaddress, uint256 amount);
 	// Initializes the contract by setting a `name` and a `symbol`
 	constructor(string memory _initBaseURI, string memory _initNotRevealedUri, uint256 PUB_PRICE, uint256 WL_PRICE) ERC721("ApeMotorcycleClub", "APE") {
 		setBaseURI(_initBaseURI);
