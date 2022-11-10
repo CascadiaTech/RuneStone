@@ -17,7 +17,7 @@ export default function ClaimComponent() {
     const showConnectAWallet = Boolean(!account);
     const context = useWeb3React();
     const [loading, setLoading] = useState(false);
-    const [claim, setcanclaim] = useState(Number)
+    const [claim, setcanclaim] = useState(Boolean)
     //const [claimall, setclaimall] = useState(Boolean)
     //const [claimone, setclaimone] = useState(Boolean)
     const { library } = context;
@@ -30,6 +30,12 @@ export default function ClaimComponent() {
           title: "Connect Your Wallet To Mint, and Enter A Mint Quantity",
         });
       }
+      if (claim == false) {
+        Swal.fire({
+          icon: "error",
+          title: "You cannot claim",
+        });
+      }
   
       try {
         setLoading(true);
@@ -40,7 +46,7 @@ export default function ClaimComponent() {
           //const provider = getDefaultProvider()
           const signer = provider.getSigner()
           const contract = new Contract(contractaddress, abi, signer)
-          const ClaimTokens = await contract.ClaimAllTokens(account)//.claim()
+          const ClaimTokens = await contract.ClaimAllTokens()//.claim()
           const signtransaction = await signer.signTransaction(ClaimTokens)
           const Claimtxid = await signtransaction
           Swal.fire({
@@ -62,7 +68,13 @@ export default function ClaimComponent() {
       if (!account) {
         Swal.fire({
           icon: "error",
-          title: "Connect Your Wallet To Mint, and Enter A Mint Quantity",
+          title: "Connect Your Wallet To Claim",
+        });
+      }
+      if (claim == false) {
+        Swal.fire({
+          icon: "error",
+          title: "You cannot claim",
         });
       }
   
@@ -77,7 +89,7 @@ export default function ClaimComponent() {
           const contract = new Contract(contractaddress, abi, signer)
           const ethervalue = 0
           const etherstringvalue = JSON.stringify(ethervalue)
-          const MintNFT = await contract.ClaimOneToken(account, tokenaddress) //.claim()
+          const MintNFT = await contract.ClaimOneToken(tokenaddress) //.claim()
           const signtransaction = await signer.signTransaction(MintNFT)
           const Claimtxid = await signtransaction
           Swal.fire({
@@ -114,9 +126,11 @@ export default function ClaimComponent() {
       }
       try {
         //setLoading(true)
-        const provider = getDefaultProvider()
+        const provider = new Web3Provider(
+          library?.provider as ExternalProvider | JsonRpcFetchFunc
+        );
         const abi = abiObject
-        const contractaddress = '0xc68A4C68F17fed266A5e39e7140650acAdfE78F8'
+        const contractaddress = '0x178cB46bf6cc931AD7c9507c2347C197EAE1426F'
         const contract = new Contract(contractaddress, abi, provider)
         //const FinalResult = await UserTokenBalance.toString()
         if (!account) {
@@ -125,18 +139,23 @@ export default function ClaimComponent() {
           title: "Connect your wallet to claim",
           text: "you must connect your wallet to claim"})
         } else {
-          const ClaimableBalance = await contract.claimall(account)
-          const convert = BigNumber.from(ClaimableBalance)
-          const final = Number(convert)
-          setcanclaim(final)
-          return final
+          const usersclaimperiod = await contract.usersPeriodId(account)
+          const currentperiod = await contract.currentRewardPeriodId()
+          await usersclaimperiod && currentperiod
+          if(usersclaimperiod >= currentperiod){
+            setcanclaim(true)
+          }else{
+            setcanclaim(false)
+          }
+          return currentperiod
         }
       } catch (error) {
         console.log(error)
       } finally {
+        console.log(claim)
       }
     }
-  
+    CanClaim()
     setProvider().then((result) => setuniswapprivder(result as any));
   }, [account]);
 
@@ -150,7 +169,6 @@ export default function ClaimComponent() {
       <div className={'self-center border-gray-800'}>
         <button onClick={() => ClaimAll()} className="bg-gray-700 hover:bg-blue-700 text-gray-900 font-bold py-2 px-4 rounded-full">
         <a
-        href="https://flowbite.com/docs/getting-started/introduction/"
         className="text-blue-100 hover:underline dark:text-blue-500"
         >
         Claim All Tokens
@@ -169,11 +187,10 @@ export default function ClaimComponent() {
    <div className={'mx-auto md:px-12 lg:px-24 flex flex col justify-between'}>
       <p className="mb-2 text-gray-100 hover:underline hover:text-blue-500 dark:text-blue-500 
       cursor-pointer dark:text-gray-400 sm:text-md md:text-lg lg:text-xl">
-      Token Address: 0x0sdf79sv08089906s8976sd090h087
+      Token Address: 0xC460f9E30FDdae51b45599b34F3514D5815eD1e0
       </p>
-      <button onClick={() => ClaimOne("0x00000000000000000000000")} className="bg-gray-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+      <button onClick={() => ClaimOne("0xC460f9E30FDdae51b45599b34F3514D5815eD1e0")} className="bg-gray-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
       <a
-        href="https://flowbite.com/docs/getting-started/introduction/"
         className="text-blue-100 hover:underline dark:text-blue-500"
         >
         Claim Me
@@ -197,7 +214,6 @@ export default function ClaimComponent() {
       </p>
       <button className="bg-gray-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
       <a
-        href="https://flowbite.com/docs/getting-started/introduction/"
         className="text-blue-100 hover:underline dark:text-blue-500"
         >
         Claim Me
@@ -219,7 +235,6 @@ export default function ClaimComponent() {
       </p>
       <button className="bg-gray-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
       <a
-        href="https://flowbite.com/docs/getting-started/introduction/"
         className="text-blue-100 hover:underline dark:text-blue-500"
         >
         Claim Me

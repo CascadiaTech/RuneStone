@@ -20,6 +20,7 @@ export default function MintCardComponent() {
     }, [window.scrollY]);
   }
   const [loading, setLoading] = useState(false);
+  const [balance, setbalance] = useState(Number)
   const [totalSupply, settotalySupply] = useState(Number);
   const [pubmintprice, setpubmintprice] = useState(Number)
   const [pubmintactive, setpubmintactive] = useState(Boolean);
@@ -94,16 +95,41 @@ export default function MintCardComponent() {
       } finally {
       }
     }
+    async function FetchBalance() {
+      try {
+        //setLoading(true)
+        const provider = new Web3Provider(
+          library?.provider as ExternalProvider | JsonRpcFetchFunc
+        );
+        const NFTabi = abiObject;
+        const contractaddress = "0x178cB46bf6cc931AD7c9507c2347C197EAE1426F";
+        const contract = new Contract(contractaddress, NFTabi, provider);
+        const Mintactive = await contract.balanceOf(account);
+       setbalance(Mintactive)
+       console.log(balance)
+        return Mintactive;
+      } catch (error) {
+        console.log(error);
+      } finally {
+      }
+    }
 
     FetchPublicMintPrice();
     FetchtotalSupply();
+    FetchBalance();
     FetchPublicMintActive();
   }, [pubmintprice, account, library?.provider, totalSupply]);
   const handleMint = useCallback(async () => {
-    if (!account) {
+    if (!account ) {
       Swal.fire({
         icon: "error",
         title: "Connect Your Wallet To Mint",
+      });
+    }
+    if (balance > 0) {
+      Swal.fire({
+        icon: "error",
+        title: "You already own 1 nft in this wallet",
       });
     }
 
