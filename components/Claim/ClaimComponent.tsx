@@ -189,13 +189,6 @@ export default function ClaimComponent() {
       cursor-pointer dark:text-gray-400 sm:text-md md:text-lg lg:text-xl">
       Token Address: 0xC460f9E30FDdae51b45599b34F3514D5815eD1e0
       </p>
-      <button onClick={() => ClaimOne("0xC460f9E30FDdae51b45599b34F3514D5815eD1e0")} className="bg-gray-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-      <a
-        className="text-blue-100 hover:underline dark:text-blue-500"
-        >
-        Claim Me
-        </a>
-    </button>
     </div>
   </Accordion.Content>
 </Accordion.Panel>
@@ -212,13 +205,6 @@ export default function ClaimComponent() {
       cursor-pointer dark:text-gray-400 sm:text-md md:text-lg lg:text-xl">
       Token Address: 0x0sdf79sv08089906s8976sd090h087
       </p>
-      <button className="bg-gray-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-      <a
-        className="text-blue-100 hover:underline dark:text-blue-500"
-        >
-        Claim Me
-        </a>
-    </button>
   </div>
   </Accordion.Content>
 </Accordion.Panel>
@@ -233,13 +219,6 @@ export default function ClaimComponent() {
       cursor-pointer dark:text-gray-400 sm:text-md md:text-lg lg:text-xl">
       Token Address: 0x0sdf79sv08089906s8976sd090h087
       </p>
-      <button className="bg-gray-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-      <a
-        className="text-blue-100 hover:underline dark:text-blue-500"
-        >
-        Claim Me
-        </a>
-    </button>
   </div>
   </Accordion.Content>
 </Accordion.Panel>
