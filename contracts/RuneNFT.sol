@@ -2,15 +2,28 @@
 
 pragma solidity ^0.8.0;
 // @cryptoconner simple but effective. 
+
+// this NFT Contract can take deposits of ERC20 Tokens and allows holders of the nft to claim a portion of thse tokens
+// When you claim, you claim all past reward rounds at once.
+// each reward round is initiated when the owner of the contract calls setreward ater depositing tokens
+// when this it called it logs the amount deposited, the time, the current holder count, and the asset address in itself. 
+// there is only 1 nft per user. 
 //1 billion = 1eth mintPrice for gwei denomented price 
-//https://ipfs.io/ipfs/QmVeMWpbq3UzbfPZnQrwSWAC9qrSPhqzWmV8ZmKyxPqH5H/ base uri
-//encoded constructors: 000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000005f5e1000000000000000000000000000000000000000000000000000000000005f5e100000000000000000000000000000000000000000000000000000000000000004468747470733a2f2f697066732e696f2f697066732f516d56654d5770627133557a6266505a6e51727753574143397172535068717a576d56385a6d4b797850714835482f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004468747470733a2f2f697066732e696f2f697066732f516d56654d5770627133557a6266505a6e51727753574143397172535068717a576d56385a6d4b797850714835482f00000000000000000000000000000000000000000000000000000000
+//https://ipfs.io/ipfs/QmYapEVYpoAUDJmDrjiod7GPaFcjxZdM3mrfLAFGmWiG3q/ base uri
+//encoded constructors: 0000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004468747470733a2f2f697066732e696f2f697066732f516d596170455659706f4155444a6d44726a696f643747506146636a785a644d336d72664c4146476d57694733712f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004468747470733a2f2f697066732e696f2f697066732f516d596170455659706f4155444a6d44726a696f643747506146636a785a644d336d72664c4146476d57694733712f00000000000000000000000000000000000000000000000000000000
+
+// steps for redeployment 
+// if you want to redeploy this and use it just deploy as usual feeding in your baseuri, and pub mint price ( in Gwei)
+// then after deployment call setreveal, and togglepubmint
+// once users have minted, send tokens to contract and call setreward(your deposited token address)
+// holders may now claim that token. 
+// the withdraw function only pulls eth from minting fees, if you do not setreward then those ERC20 reward tokens are effectively locked in the contract
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-contract RuneStoneNFT is ERC721, Ownable {
+contract OfficialRuneStoneNFT is ERC721, Ownable {
 	using Strings for uint256;
 	using Counters for Counters.Counter;
 
@@ -23,6 +36,7 @@ contract RuneStoneNFT is ERC721, Ownable {
         IERC20 tokenaddress;
         uint256 rewardsamount;
         uint256 time;
+        uint256 currentholdercount;
         }
     uint256 private MAX_INT = 2**256 - 1;
     uint256 public currentRewardPeriodId;
@@ -38,6 +52,8 @@ contract RuneStoneNFT is ERC721, Ownable {
 
     //events
     event ClaimedRewards(address to);
+    event minted(address to, uint256 quantity);
+	event Rewardsadded(IERC20 tokenaddress, uint256 amount);
 
 	string private baseURI;
 	string private baseExt = ".json";
@@ -50,14 +66,14 @@ contract RuneStoneNFT is ERC721, Ownable {
 
 	// Whitelist mint constants
 	bool public wlMintActive = false;
-	uint256 private constant WL_MAX_PER_WALLET = 1; // 2/wallet (uses < to save gas)
+	uint256 private constant WL_MAX_PER_WALLET = 2; // 2/wallet (uses < to save gas)
 	//uint256 private constant WL_MINT_PRICE = 0.05 ether;
 	mapping(address => bool) private whitelists;
 
 
 	// Public mint constants
 	bool public pubMintActive = false;
-	uint256 private constant PUB_MAX_PER_WALLET = 1; // 3/wallet (uses < to save gas)
+	uint256 private constant PUB_MAX_PER_WALLET = 2; // 3/wallet (uses < to save gas)
 	//uint256 private constant PUB_MINT_PRICE = 0.065 ether;
 
 	bool private _locked = false; // for re-entrancy guard
@@ -65,15 +81,12 @@ contract RuneStoneNFT is ERC721, Ownable {
     uint256 public WL_MINT_PRICE;
     uint256 public PUB_MINT_PRICE;
 
-	/// events
-	event minted(address to);
-	event Rewardsadded(address tokenaddress, uint256 amount);
 	// Initializes the contract by setting a `name` and a `symbol`
-	constructor(string memory _initBaseURI, string memory _initNotRevealedUri, uint256 PUB_PRICE, uint256 WL_PRICE) ERC721("ApeMotorcycleClub", "APE") {
+	constructor(string memory _initBaseURI, string memory _initNotRevealedUri, uint256 PUB_PRICE) ERC721("OfficialRuneStoneNFT", "RUNE") {
 		setBaseURI(_initBaseURI);
 		setNotRevealedURI(_initNotRevealedUri);
-        setWlPrice(WL_PRICE);
         setPrice(PUB_PRICE);
+		_supply.increment();
 	}
 
   //if user is reward cycle 3 and we are on 6 his ids are 4 in length- 3-4-5-6
@@ -90,6 +103,9 @@ function FetchAmountById(uint256 id) public view  returns (uint256) {
 function FetchTimeById(uint256 id) public view  returns (uint256) {
         return rewardCycle[id].time;
     }
+function FetchholdersById(uint256 id) public view  returns (uint256) {
+        return rewardCycle[id].currentholdercount;
+    }
 
 function approveERC20(address spender, uint256 amount, IERC20 token) public returns (bool) {
         token.approve(spender, amount);
@@ -104,8 +120,8 @@ function safeTransferFrom(
     ) public virtual override {
         //solhint-disable-next-line max-line-length
         require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: caller is not token owner nor approved");
-        if(usersPeriodId[msg.sender] <= currentRewardPeriodId) {
-        claimall();
+        if(usersPeriodId[msg.sender] > 0 && usersPeriodId[msg.sender] <= currentRewardPeriodId)  {
+        ClaimAllTokens();
         _transfer(from, to, tokenId);
 
         }else {
@@ -121,8 +137,8 @@ function safeTransferFrom(
         bytes memory data
     ) public virtual override {
         require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: caller is not token owner nor approved");
-                if(usersPeriodId[msg.sender] <= currentRewardPeriodId) {
-        claimall();
+                if(usersPeriodId[msg.sender] > 0 && usersPeriodId[msg.sender] <= currentRewardPeriodId)  {
+        ClaimAllTokens();
         _safeTransfer(from, to, tokenId, data);
 
         }else {
@@ -135,6 +151,7 @@ function safeTransferFrom(
 function setReward(IERC20 tokenaddress) external onlyOwner {
         updateRewardCycle(currentRewardPeriodId + 1, tokenaddress.balanceOf(address(this)), tokenaddress );
         currentRewardPeriodId = currentRewardPeriodId + 1;
+        emit Rewardsadded(tokenaddress, tokenaddress.balanceOf(address(this)));
 
     }
 function updateUsersRewardCycle(address account) private {
@@ -147,57 +164,43 @@ function updateRewardCycle(uint index, uint256 amount, IERC20 tokenaddress) priv
         rewardCycle[index].time = block.timestamp;
         rewardCycle[index].rewardsamount = amount;
         rewardCycle[index].tokenaddress= tokenaddress;
+        rewardCycle[index].currentholdercount = _supply.current();
     }
 
 
 IERC20 public claimabletokens;
 
-function claimall() public {
+function ClaimAllTokens() public {
     require(balanceOf(msg.sender) > 0, "Go buy an nft you fool.");
     require(usersPeriodId[msg.sender] <= currentRewardPeriodId, "not the correct period id to claim");
     for(uint i=usersPeriodId[msg.sender]; i < currentRewardPeriodId + 1; i++) {
     claimabletokens = rewardCycle[i].tokenaddress;
     approveERC20(msg.sender, MAX_INT, claimabletokens);
     updateUsersRewardCycle(msg.sender);
-    claimabletokens.transfer(msg.sender, rewardCycle[i].rewardsamount * (balanceOf(msg.sender) / (_supply.current())));
+    claimabletokens.transfer(msg.sender, rewardCycle[i].rewardsamount / rewardCycle[i].currentholdercount);
      }
+
+	 // one will it send the right ammount of multipl tokens ie if i set amount to 1 / 5 then tranfer will it collect multiple
+	 //rewardCycle[i].currentholdercount
     emit ClaimedRewards(msg.sender);
 }
 
-
-
-function claimone(IERC20 token) public {
-        //require(token == erc20Contract, "You are only allowed to compound the official erc20 token address which was passed into this contract's constructor");
-    require(balanceOf(msg.sender) > 0, "Go buy an nft you fool.");
-    approveERC20(msg.sender, MAX_INT, token);
-    updateUsersRewardCycle(msg.sender);
-    token.transfer(msg.sender, FetchAmountById(usersPeriodId[msg.sender]) * (balanceOf(msg.sender) / (_supply.current())));
-    emit ClaimedRewards(msg.sender);
-}
-
-
-	// Whitelist mint
-	function whitelistMint(uint256 _quantity) external payable nonReentrant {
-		require(wlMintActive, "Whitelist sale is closed at the moment.");
-
-		address _to = msg.sender;
-		require(_quantity > 0 && (balanceOf(_to) + _quantity) < WL_MAX_PER_WALLET, "Invalid mint quantity.");
-		require(whitelists[_to], "You're not whitelisted.");
-		require(msg.value >= (WL_MINT_PRICE * _quantity), "Not enough ETH.");
-        updateUsersRewardCycle(msg.sender);
-		mint(_to, _quantity);
-	}
 
 	// Public mint
 	function publicMint(uint256 _quantity) external payable nonReentrant {
 		require(pubMintActive, "Public sale is closed at the moment.");
-
 		address _to = msg.sender;
 		require(_quantity > 0 && (balanceOf(_to) + _quantity) < PUB_MAX_PER_WALLET, "Invalid mint quantity.");
 		require(msg.value >= (PUB_MINT_PRICE * _quantity), "Not enough ETH.");
-        updateUsersRewardCycle(msg.sender);
+        if(usersPeriodId[msg.sender] > 0 && usersPeriodId[msg.sender] <= currentRewardPeriodId) {
+            updateUsersRewardCycle(msg.sender);
+            ClaimAllTokens();
+		    mint(_to, _quantity);
+        }else {
+            mint(_to, _quantity);
+			updateUsersRewardCycle(msg.sender);
+        }
 
-		mint(_to, _quantity);
 	}
 
 	/**
@@ -224,32 +227,21 @@ function claimone(IERC20 token) public {
 				_supply.increment();
 			}
 		}
+        emit minted(_to, _quantity);
 	}
 
-	// Toggle whitelist sales activity
-	function toggleWlMintActive() public onlyOwner {
-		wlMintActive = !wlMintActive;
-	}
 
 	// Toggle public sales activity
 	function togglePubMintActive() public onlyOwner {
 		pubMintActive = !pubMintActive;
 	}
 
-	// Set whitelist
-	function toggleWhitelist(address _address) public onlyOwner {
-		whitelists[_address] = !whitelists[_address];
-	}
 
 	// Get total supply
 	function totalSupply() public view returns (uint256) {
 		return _supply.current();
 	}
 
-    function setWlPrice(uint256 WL_PRICE) public onlyOwner {
-        WL_MINT_PRICE = WL_PRICE * 1e9;
-    
-    }
 
     function setPrice(uint256 PUB_PRICE) public onlyOwner {
         PUB_MINT_PRICE = PUB_PRICE * 1e9;
@@ -258,10 +250,6 @@ function claimone(IERC20 token) public {
 
     
 
-	// Get whitelist
-	function isWhitelisted(address _address) public view returns (bool) {
-		return whitelists[_address];
-	}
 
 	// Base URI
 	function _baseURI() internal view virtual override returns (string memory) {

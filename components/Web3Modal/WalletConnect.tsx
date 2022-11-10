@@ -5,8 +5,7 @@ import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
-import { Provider, Web3Provider } from "@ethersproject/providers";
-import { connectors } from "./connectors";
+import { Web3Provider } from "@ethersproject/providers";
 import { Modal } from "flowbite-react";
 export const ConnectWallet = () => {
   const [visible, setVisible] = useState(false);
@@ -97,7 +96,7 @@ export const ConnectWallet = () => {
                   Connect with one of our available wallet providers.
                 </p>
                 <ul className="my-4 space-y-3">
-                  <li className="invisible sm:visible md:visible lg:visible">
+                  <li className="tn:invisible invisible sm:visible md:visible lg:visible">
                     <a
                       onClick={() => ConnectInjected()}
                       className="cursor-pointer flex items-center p-3 text-base font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"

@@ -12,7 +12,10 @@ import {
 import { useWeb3React } from "@web3-react/core";
 import { Contract } from "@ethersproject/contracts";
 import { formatEther, parseEther } from "@ethersproject/units";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 export default function MintCardComponent() {
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
   if (typeof window !== "undefined") {
     useEffect(() => {
       // Update the document title using the browser API
@@ -20,9 +23,9 @@ export default function MintCardComponent() {
     }, [window.scrollY]);
   }
   const [loading, setLoading] = useState(false);
-  const [balance, setbalance] = useState(Number)
+  const [balance, setbalance] = useState(Number);
   const [totalSupply, settotalySupply] = useState(Number);
-  const [pubmintprice, setpubmintprice] = useState(Number)
+  const [pubmintprice, setpubmintprice] = useState(Number);
   const [pubmintactive, setpubmintactive] = useState(Boolean);
   const { account, chainId, active } = useWeb3React();
   const showConnectAWallet = Boolean(!account);
@@ -78,23 +81,6 @@ export default function MintCardComponent() {
       }
     }
 
-    async function FetchPublicMintActive() {
-      try {
-        //setLoading(true)
-        const provider = new Web3Provider(
-          library?.provider as ExternalProvider | JsonRpcFetchFunc
-        );
-        const NFTabi = abiObject;
-        const contractaddress = "0x178cB46bf6cc931AD7c9507c2347C197EAE1426F";
-        const contract = new Contract(contractaddress, NFTabi, provider);
-        const Mintactive = await contract.pubMintActive();
-        setpubmintactive(Mintactive);
-        return Mintactive;
-      } catch (error) {
-        console.log(error);
-      } finally {
-      }
-    }
     async function FetchBalance() {
       try {
         //setLoading(true)
@@ -105,8 +91,8 @@ export default function MintCardComponent() {
         const contractaddress = "0x178cB46bf6cc931AD7c9507c2347C197EAE1426F";
         const contract = new Contract(contractaddress, NFTabi, provider);
         const Mintactive = await contract.balanceOf(account);
-       setbalance(Mintactive)
-       console.log(balance)
+        setbalance(Mintactive);
+        console.log(balance);
         return Mintactive;
       } catch (error) {
         console.log(error);
@@ -117,10 +103,9 @@ export default function MintCardComponent() {
     FetchPublicMintPrice();
     FetchtotalSupply();
     FetchBalance();
-    FetchPublicMintActive();
   }, [pubmintprice, account, library?.provider, totalSupply]);
   const handleMint = useCallback(async () => {
-    if (!account ) {
+    if (!account) {
       Swal.fire({
         icon: "error",
         title: "Connect Your Wallet To Mint",
@@ -138,22 +123,25 @@ export default function MintCardComponent() {
       const data = abiObject;
       const abi = data;
       const contractaddress = "0x178cB46bf6cc931AD7c9507c2347C197EAE1426F"; // "clienttokenaddress"
-        const provider = new Web3Provider(library?.provider as ExternalProvider | JsonRpcFetchFunc)
-        //const provider = getDefaultProvider()
-        const signer = provider.getSigner()
-        const contract = new Contract(contractaddress, abi, signer)
-        const ethervalue = 0
-        const etherstringvalue = JSON.stringify(ethervalue)
-        const MintNFT = await contract.publicMint(1, { value: parseEther(etherstringvalue) }) //.claim()
-        const signtransaction = await signer.signTransaction(MintNFT)
-        const Claimtxid = await signtransaction
-        Swal.fire({
-          icon: "success",
-          title: "Congratulations you have minted a RuneStone NFT",
-          text: "Go View your item on Opensea",
-        });
-        return Claimtxid
-
+      const provider = new Web3Provider(
+        library?.provider as ExternalProvider | JsonRpcFetchFunc
+      );
+      //const provider = getDefaultProvider()
+      const signer = provider.getSigner();
+      const contract = new Contract(contractaddress, abi, signer);
+      const ethervalue = 0;
+      const etherstringvalue = JSON.stringify(ethervalue);
+      const MintNFT = await contract.publicMint(1, {
+        value: parseEther(etherstringvalue),
+      }); //.claim()
+      const signtransaction = await signer.signTransaction(MintNFT);
+      const Claimtxid = await signtransaction;
+      Swal.fire({
+        icon: "success",
+        title: "Congratulations you have minted a RuneStone NFT",
+        text: "Go View your item on Opensea",
+      });
+      return Claimtxid;
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -174,17 +162,24 @@ export default function MintCardComponent() {
       >
         RuneStone NFT
       </h5>
-      <button
-        style={{ fontFamily: "Cinzel, serif" }}
-        type="button"
-        onClick={() => handleMint()}
-        className="w-screen elevation-10 hover:elevation-50 md:w-96 h-24 clip-path-mycorners justify-self-start mt-10
+      {loading ? (
+        <Spin indicator={antIcon} className="add-spinner" />
+      ) : (
+        <>
+          {" "}
+          <button
+            style={{ fontFamily: "Cinzel, serif" }}
+            type="button"
+            onClick={() => handleMint()}
+            className="w-screen elevation-10 hover:elevation-50 md:w-96 h-24 clip-path-mycorners justify-self-start mt-10
         text-gray-100 bg-blue-700 transition ease-in-out duration-700 hover:scale-105 bg-blue-800 focus:ring-4
         focus:ring-blue-300 font-medium rounded-lg text-4xl px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 
         focus:outline-none dark:focus:ring-blue-800 text-4xl"
-      >
-        Mint
-      </button>
+          >
+            Mint
+          </button>
+        </>
+      )}
       <p className="sm:mr-16 mt-10 text-right font-normal text-white dark:text-gray-400">
         You can ony mint 1 NFT per wallet
       </p>

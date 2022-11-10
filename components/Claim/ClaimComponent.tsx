@@ -5,21 +5,21 @@ import { Accordion } from "flowbite-react";
 import { useCallback, useEffect, useState } from "react";
 import {
     ExternalProvider,
-    getDefaultProvider,
     JsonRpcFetchFunc,
     Web3Provider,
   } from "@ethersproject/providers";
 import { Contract } from '@ethersproject/contracts'
-import { BigNumber } from "@ethersproject/bignumber";
 import { abiObject }  from '../../contracts/abi.mjs'
+import { Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+
 export default function ClaimComponent() {
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
     const { account } = useWeb3React();
     const showConnectAWallet = Boolean(!account);
     const context = useWeb3React();
     const [loading, setLoading] = useState(false);
     const [claim, setcanclaim] = useState(Boolean)
-    //const [claimall, setclaimall] = useState(Boolean)
-    //const [claimone, setclaimone] = useState(Boolean)
     const { library } = context;
     const [uniswaprovider, setuniswapprivder] = useState();
 
@@ -58,50 +58,6 @@ export default function ClaimComponent() {
   
       } catch (error) {
         console.log(error);
-        setLoading(false);
-      } finally {
-        setLoading(false);
-      }
-    }, [account, library?.provider]);
-
-    const ClaimOne = useCallback(async (tokenaddress: string) => {
-      if (!account) {
-        Swal.fire({
-          icon: "error",
-          title: "Connect Your Wallet To Claim",
-        });
-      }
-      if (claim == false) {
-        Swal.fire({
-          icon: "error",
-          title: "You cannot claim",
-        });
-      }
-  
-      try {
-        setLoading(true);
-        const data = abiObject;
-        const abi = data;
-        const contractaddress = "0x178cB46bf6cc931AD7c9507c2347C197EAE1426F"; // "clienttokenaddress"
-          const provider = new Web3Provider(library?.provider as ExternalProvider | JsonRpcFetchFunc)
-          //const provider = getDefaultProvider()
-          const signer = provider.getSigner()
-          const contract = new Contract(contractaddress, abi, signer)
-          const ethervalue = 0
-          const etherstringvalue = JSON.stringify(ethervalue)
-          const MintNFT = await contract.ClaimOneToken(tokenaddress) //.claim()
-          const signtransaction = await signer.signTransaction(MintNFT)
-          const Claimtxid = await signtransaction
-          Swal.fire({
-            icon: "success",
-            title: "Congratulations you have minted a RuneStone NFT",
-            text: "Go View your item on Opensea",
-          });
-          return Claimtxid
-  
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
       } finally {
         setLoading(false);
       }
@@ -167,13 +123,12 @@ export default function ClaimComponent() {
       className="mb-2 text-3xl font-bold tracking-tight self-center text-purple-100 dark:text-white">
       Claim Tokens</h5>
       <div className={'self-center border-gray-800'}>
-        <button onClick={() => ClaimAll()} className="bg-gray-700 hover:bg-blue-700 text-gray-900 font-bold py-2 px-4 rounded-full">
-        <a
+      {loading ? <Spin indicator={antIcon} className="add-spinner" /> : <><button onClick={() => ClaimAll()} className="bg-gray-700 hover:bg-blue-700 text-gray-900 font-bold py-2 px-4 rounded-full">        <a
         className="text-blue-100 hover:underline dark:text-blue-500"
         >
-        Claim All Tokens
+        Claim
         </a>
-        </button>
+        </button></>}
       </div> 
     </div>
   <div>
@@ -185,7 +140,7 @@ export default function ClaimComponent() {
     </Accordion.Title>
   <Accordion.Content>
    <div className={'mx-auto md:px-12 lg:px-24 flex flex col justify-between'}>
-      <p className="mb-2 text-gray-100 hover:underline hover:text-blue-500 dark:text-blue-500 
+      <p className="mb-2 mx-2 text-gray-100 hover:underline hover:text-blue-500 dark:text-blue-500 
       cursor-pointer dark:text-gray-400 sm:text-md md:text-lg lg:text-xl">
       Token Address: 0xC460f9E30FDdae51b45599b34F3514D5815eD1e0
       </p>
@@ -201,9 +156,9 @@ export default function ClaimComponent() {
 </div>
   <Accordion.Content>
   <div className={'mx-auto md:px-12 lg:px-24 flex flex col justify-between'}>
-      <p className="mb-2 text-gray-100 hover:underline hover:text-blue-500 dark:text-blue-500 
+      <p className="mb-2 mx-2 text-gray-100 hover:underline hover:text-blue-500 dark:text-blue-500 
       cursor-pointer dark:text-gray-400 sm:text-md md:text-lg lg:text-xl">
-      Token Address: 0x0sdf79sv08089906s8976sd090h087
+      Token Address: 0xC460f9E30FDdae51b45599b34F3514D5815eD1e0
       </p>
   </div>
   </Accordion.Content>
@@ -211,13 +166,13 @@ export default function ClaimComponent() {
 <Accordion.Panel>
     <Accordion.Title className={'mx-auto flex flex col w-screen hover:text-black' } style={{ color: '#717171', fontSize: '20px',
      justifyContent: 'center' }}>
-    <p> MonkeyBalls!</p>
+    <p> Tsuki Inu!</p>
     </Accordion.Title>
   <Accordion.Content>
   <div className={'mx-auto md:px-12 lg:px-24 flex flex col justify-between'}>
-      <p className="mb-2 text-gray-100 hover:underline hover:text-blue-500 dark:text-blue-500 
+      <p className="mb-2 mx-2 text-gray-100 hover:underline hover:text-blue-500 dark:text-blue-500 
       cursor-pointer dark:text-gray-400 sm:text-md md:text-lg lg:text-xl">
-      Token Address: 0x0sdf79sv08089906s8976sd090h087
+      Token Address: 0xC460f9E30FDdae51b45599b34F3514D5815eD1e0
       </p>
   </div>
   </Accordion.Content>
