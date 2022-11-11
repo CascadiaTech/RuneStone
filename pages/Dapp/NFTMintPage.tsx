@@ -22,6 +22,9 @@ import {
 import Link from "next/link";
 import MintCardComponent from "../../components/Cards/MintCard";
 import ClaimComponent from "../../components/Claim/ClaimComponent";
+import { formatEther } from "@ethersproject/units";
+import { Contract } from "@ethersproject/contracts";
+import { abiObject } from "../../contracts/tokenabi.mjs";
 //const mySafeHTML = DOMPurify.sanitize(myHTML)
 
 const NFTMint = () => {
@@ -34,6 +37,8 @@ const NFTMint = () => {
   const context = useWeb3React();
   const { library } = context;
   const [uniswaprovider, setuniswapprivder] = useState();
+  const [price, setprice] = useState(String)
+  const [balance, setbalance] = useState(Number)
   const Runeaddress = "0xc68a4c68f17fed266a5e39e7140650acadfe78f8";
   useEffect(() => {
     async function setProvider() {
@@ -46,34 +51,97 @@ const NFTMint = () => {
         return;
       }
     }
-    setProvider().then((result) => setuniswapprivder(result as any));
-  }, [account]);
+    async function FetchPrice() {
+      try {
+        setLoading(true)
+        const response = await fetch(
+          'https://api.dexscreener.com/latest/dex/tokens/0xc68A4C68F17fed266A5e39e7140650acAdfE78F8'
+        ) // Api Key also the pair contract
 
-  const jsonRpcUrlMap = {
-    1: ["https://mainnet.infura.io/v3/7724cb4383a249dfb4a847c90954b901"],
-    3: ["https://ropsten.infura.io/v3/<YOUR_INFURA_PROJECT_ID>"],
-  };
+        const data = await response.json()
+        const price = data.pairs
+        const test = price.forEach((item: any) => {
+          setprice(String(item?.priceUsd))
+        })
+        await test
+        return 
+      } catch (error) {
+        console.log(error)
+        setLoading(false)
+      } finally {
+        setLoading(false)
+        console.log(price)
+      }
+    }
+    async function balanceOf() {
+      if (!account) {
+        console.log({ message: 'Hold On there Partner, there seems to be an Account err!' })
+        return
+      }
+  
+      try {
+        setLoading(true)
+        const abi = abiObject
+        const provider = new Web3Provider(
+          library?.provider as ExternalProvider | JsonRpcFetchFunc
+        );
+        setbalance(100000000)
+        const contractaddress = '0xc68A4C68F17fed266A5e39e7140650acAdfE78F8'// "clienttokenaddress"
+        const contract = new Contract(contractaddress, abi, provider)
+        const balance = await new contract.balanceOf(account) //.claim(account,amount)
+        const Claimtxid = await balance
+        const finalbalance = Number(balance)
+        //setbalance(100000000)
+        console.log(finalbalance)
+  
+        return Claimtxid
+        /////
+      } catch (error) {
+        console.log(error)
+        setLoading(false)
+      } finally {
+        setLoading(false)
+      }
+    }
+  
+    balanceOf()
+    FetchPrice()
+    setProvider().then((result) => setuniswapprivder(result as any));
+  },[account, balance]);
+
 
   if (!account)
   return (<>
   <HeaderComponent></HeaderComponent>
   <div className="w-full sm:px-4 md:px-20 lg:px-48 xl:px-64">
-    <div className={'bg-gray-900 h-48 font-medium border-gray-100 border-2 mx-auto px-6 mt-40 sm:px-6 md:px-12 lg:px-24 flex flex col justify-between'}>
+    <div className={'flex-col bg-gray-900 h-full font-medium border-gray-100 border-2 mx-auto px-6 mt-40 sm:px-6 md:px-12 lg:px-24 flex flex col justify-center content-center'}>
       <h5
       style={{ fontFamily: "Cinzel, serif" }}
-      className="mb-2 text-3xl font-bold tracking-tight self-center text-purple-100 dark:text-white">
+      className="mb-2 text-center text-3xl font-bold tracking-tight self-center text-purple-100 dark:text-white">
       Please Connect your Wallet
       </h5>
       <div className={'self-center border-gray-800'}>
       <h5
       style={{ fontFamily: "Cinzel, serif" }}
-      className="mb-2 text-3xl font-bold tracking-tight self-center text-purple-100 dark:text-white">
-      Make sure you have purchases $50 worth of RuneStone
+      className="mb-2 text-center text-3xl font-bold tracking-tight self-center text-purple-100 dark:text-white">
+      Make sure you have purchased $50 worth of RuneStone token, you can buy on the homepage
       </h5>
       </div> 
     </div>
   </div>
   </>)
+  else if (balance * Number(price) == 0) return(<>
+  <div className="w-full sm:px-4 md:px-20 lg:px-48 xl:px-64">
+    <div className={'flex-col bg-gray-900 h-full font-medium border-gray-100 border-2 mx-auto px-6 mt-40 sm:px-6 md:px-12 lg:px-24 flex flex col justify-center content-center'}>
+      <div className={'self-center border-gray-800'}>
+      <h5
+      style={{ fontFamily: "Cinzel, serif" }}
+      className="mb-2 text-center text-3xl font-bold tracking-tight self-center text-purple-100 dark:text-white">
+     You must purchase $50 worth of RuneStone token to accesss the mint page, you can buy on the homepage
+      </h5>
+      </div> 
+    </div>
+  </div></>)
   else
   return (
     <>

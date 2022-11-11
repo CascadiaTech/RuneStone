@@ -19,6 +19,7 @@ import { Contract } from "@ethersproject/contracts";
 import { BigNumber } from "@ethersproject/bignumber";
 import { formatEther } from "@ethersproject/units"
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 const Home: NextPage = () => {
   const { account } = useWeb3React();
@@ -26,8 +27,8 @@ const Home: NextPage = () => {
   const showConnectAWallet = Boolean(!account);
   const context = useWeb3React();
   const { library } = context;
-  const [balance, setbalanceOf] = useState(Number);
-  const [price, setprice] = useState(Number);
+  const [balance, setbalance] = useState(Number);
+  const [price, setprice] = useState(String);
   const [uniswaprovider, setuniswapprivder] = useState();
   const Runeaddress = '0xc68a4c68f17fed266a5e39e7140650acadfe78f8'
 
@@ -59,15 +60,16 @@ const Home: NextPage = () => {
         const data = await response.json()
         const price = data.pairs
         const test = price.forEach((item: any) => {
+          setprice(String(item?.priceUsd))
         })
-        const finalprice = Number(price)
-        setprice(finalprice)
-        return price
+        await test
+        return
       } catch (error) {
         console.log(error)
         setLoading(false)
       } finally {
         setLoading(false)
+        console.log(price)
       }
     }
     async function balanceOf() {
@@ -79,15 +81,16 @@ const Home: NextPage = () => {
       try {
         setLoading(true)
         const abi = abiObject
-        const signingprovider = new Web3Provider(library?.provider)
-        const signer = signingprovider.getSigner()
+        const provider = new Web3Provider(
+          library?.provider as ExternalProvider | JsonRpcFetchFunc
+        );
         const contractaddress = '0xc68A4C68F17fed266A5e39e7140650acAdfE78F8'// "clienttokenaddress"
-        const contract = new Contract(contractaddress, abi, signer)
+        const contract = new Contract(contractaddress, abi, provider)
         const balance = await new contract.balanceOf(account) //.claim(account,amount)
         const Claimtxid = await balance
         const fixednumber = formatEther(balance)
         const finalbalance = Number(balance)
-        setbalanceOf(finalbalance)
+        setbalance(finalbalance)
         console.log(finalbalance)
   
         return Claimtxid
@@ -100,8 +103,8 @@ const Home: NextPage = () => {
       }
     }
   
-    balanceOf().then((result) => setbalanceOf(result as any));
-    FetchPrice().then((result) => setprice(result as any));
+    balanceOf()
+    FetchPrice()
     setProvider().then((result) => setuniswapprivder(result as any));
   },[account]);
 
@@ -164,7 +167,11 @@ const Home: NextPage = () => {
              </button>
              <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 
              focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">
-              <Link href="#BuySection"><a>Buy Here</a></Link>
+                           {balance * Number(price) >= 50 ? <><Link href="/Dapp/NFTMintPage">
+                  <p className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                    Mint
+                  </p>
+                </Link></> : <> <Link href="#BuySection"><a onClick={() => Swal.fire({icon: 'warning', title: "you must connect your wallet to mint", text: "if you do not have rune token you cannot access the mint page, purchase on our Uniswap widget after connecting your wallet"})}>Mint</a></Link> </>}
              </button>
             </div> 
          </div>
@@ -187,8 +194,12 @@ const Home: NextPage = () => {
               className={'justify-center px-6 text-center mt-10 mb-10 mx auto md:mt-0 md:mb-0 md:mr-6 lg:mr-14'}>
               <h4 className={' font-bold tracking-tight text-white text-4xl sm:text-3xl text-white md:text-3xl lg:text-4xl'}
               style={{ fontFamily: "Cinzel, serif" }}>
-              You must purchase $50USD of RuneStone before accessing the
-              mint page, Buy some here! <br /> Connect your wallet to purchase
+              You must purchase $50 USD of RuneStone Token before accessing the
+              mint page, Buy some here!
+              </h4>
+              <h4 className={' font-bold tracking-tight text-white text-2xl sm:text-3xl text-white md:text-3xl lg:text-4xl'}
+              style={{ fontFamily: "Cinzel, serif" }}>
+                Connect your wallet to purchase
               </h4>
             </div>
           </div>

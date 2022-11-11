@@ -11,6 +11,7 @@ import { formatEther } from "@ethersproject/units"
 import Link from 'next/link'
 import { ConnectWallet } from "../Web3Modal/WalletConnect";
 import { Dropdown } from "flowbite-react";
+import Swal from "sweetalert2";
 
 export default function HeaderComponent() {
   const { account } = useWeb3React();
@@ -63,7 +64,7 @@ export default function HeaderComponent() {
         setLoading(false)
       }
     }
-    async function balanceOf() {
+    async function FetchBalance() {
       if (!account) {
         console.log({ message: 'Hold On there Partner, there seems to be an Account err!' })
         return
@@ -72,19 +73,19 @@ export default function HeaderComponent() {
       try {
         setLoading(true)
         const abi = abiObject
-        const signingprovider = new Web3Provider(library?.provider)
-        const signer = signingprovider.getSigner()
+        const provider = new Web3Provider(
+          library?.provider as ExternalProvider | JsonRpcFetchFunc
+        );
+        setbalance(10000000)
         const contractaddress = '0xc68A4C68F17fed266A5e39e7140650acAdfE78F8'// "clienttokenaddress"
-        const contract = new Contract(contractaddress, abi, signer)
-        const originalbalance = await new contract.balanceOf(account) //.claim(account,amount)
-        const Claimtxid = await originalbalance
-        //const fixednumber = formatEther(Claimtxid)
+        const contract = new Contract(contractaddress, abi, provider)
+        const originalbalance = await contract.balanceOf(account) //.claim(account,amount)
         const balances = Number(originalbalance)
-        const fuck = setbalance(balances)
-        await fuck
+       // const userbalance = setbalance(balances)
+        //await userbalance
         console.log(balance)
   
-        return balances
+        return
         /////
       } catch (error) {
         console.log(error)
@@ -94,7 +95,7 @@ export default function HeaderComponent() {
       }
     }
   
-    balanceOf()
+    FetchBalance()
     FetchPrice()
     setProvider().then((result) => setuniswapprivder(result as any));
   },[account, balance]);
@@ -124,10 +125,10 @@ export default function HeaderComponent() {
               </Dropdown.Item>
               <Dropdown.Item>
               {balance * Number(price) >= 50 ? <><Link href="/Dapp/NFTMintPage">
-                  <p className=" cursor-pointer block py-2 pr-4 pl-3 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                  <p className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     Mint
                   </p>
-                </Link></> : <> <Link href="#BuySection"><a>Buy Here</a></Link> </>}
+                </Link></> : <> <Link href="#BuySection"><a onClick={() => Swal.fire({icon: 'warning', title: "you must connect your wallet to mint", text: "if you do not have rune token you cannot access the mint page, purchase on our Uniswap widget after connecting your wallet"})}>Mint</a></Link> </>}
               </Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item>
@@ -159,7 +160,7 @@ export default function HeaderComponent() {
                   <p className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     Mint
                   </p>
-                </Link></> : <> <Link href="#BuySection"><a>Buy Here</a></Link> </>}
+                </Link></> : <> <Link href="#BuySection"><a onClick={() => Swal.fire({icon: 'warning', title: "you must connect your wallet to mint", text: "if you do not have rune token you cannot access the mint page, purchase on our Uniswap widget after connecting your wallet"})}>Mint</a></Link> </>}
               </li>
               <li>
                 <Link href="/ContactUs/ContactUsForm">
