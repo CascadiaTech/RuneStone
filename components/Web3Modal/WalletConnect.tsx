@@ -1,3 +1,4 @@
+// ${process.env.INFURA_KEY}
 import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 
@@ -5,7 +6,6 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 import { Web3Provider } from "@ethersproject/providers";
-import { connectors } from "./connectors";
 import { Modal } from "flowbite-react";
 export const ConnectWallet = () => {
   const [visible, setVisible] = useState(false);
@@ -14,30 +14,42 @@ export const ConnectWallet = () => {
     supportedChainIds: [1, 3, 4, 5, 42, 11155111],
   });
   const walletconnect = new WalletConnectConnector({
-    rpc: { 1: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}` },
+    supportedChainIds: [1, 3, 4, 5, 42, 11155111],
+    rpc: { 1: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`, 5: `https://goerli.infura.io/v3/${process.env.INFURA_KEY}` },
     bridge: "https://bridge.walletconnect.org",
-    qrcode: true,
+    qrcode: true,  
   });
 
   const CoinbaseWallet = new WalletLinkConnector({
     url: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
-    appName: "Web3-react Demo",
+    appName: "Web3",
     supportedChainIds: [1, 3, 4, 5, 42, 11155111],
   });
+
+  const setProvider = (type: string) => {
+    window.localStorage.setItem("provider", type);
+  };
+ // useEffect(() => {
+ //   const provider = window.localStorage.getItem("provider");
+ //   if (provider) activate(connectors as any[ typeof provider]);
+ // }, []);
 
   const { chainId, account, activate, active, library, deactivate } =
     useWeb3React<Web3Provider>();
   const ConnectInjected = () => {
     activate(injectedConnector);
+    setProvider("coinbaseWallet");
     setVisible(false);
   };
   const ConnectWalletConnect = () => {
     activate(walletconnect);
+    setProvider("walletConnect");
     setVisible(false);
   };
 
   const ConnectCoinbase = () => {
     activate(CoinbaseWallet);
+    setProvider("coinbaseWallet")
     setVisible(false);
   };
   const onActiveClick = () => {
@@ -72,7 +84,7 @@ export const ConnectWallet = () => {
           <button
             type="button"
             onClick={OnClick}
-            className="clip-path-mycorners text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium mt-2 rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 md:ml-1000px"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium mt-2 rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           >
             Connect Wallet
           </button>
@@ -84,7 +96,7 @@ export const ConnectWallet = () => {
                   Connect with one of our available wallet providers.
                 </p>
                 <ul className="my-4 space-y-3">
-                  <li className="visible sm:visible md:visible lg:visible">
+                  <li className="tn:invisible invisible sm:visible md:visible lg:visible">
                     <a
                       onClick={() => ConnectInjected()}
                       className="cursor-pointer flex items-center p-3 text-base font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
