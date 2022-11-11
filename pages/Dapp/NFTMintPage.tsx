@@ -53,6 +53,28 @@ const NFTMint = () => {
     1: ["https://mainnet.infura.io/v3/7724cb4383a249dfb4a847c90954b901"],
     3: ["https://ropsten.infura.io/v3/<YOUR_INFURA_PROJECT_ID>"],
   };
+
+  if (!account)
+  return (<>
+  <HeaderComponent></HeaderComponent>
+  <div className="w-full sm:px-4 md:px-20 lg:px-48 xl:px-64">
+    <div className={'bg-gray-900 h-48 font-medium border-gray-100 border-2 mx-auto px-6 mt-40 sm:px-6 md:px-12 lg:px-24 flex flex col justify-between'}>
+      <h5
+      style={{ fontFamily: "Cinzel, serif" }}
+      className="mb-2 text-3xl font-bold tracking-tight self-center text-purple-100 dark:text-white">
+      Please Connect your Wallet
+      </h5>
+      <div className={'self-center border-gray-800'}>
+      <h5
+      style={{ fontFamily: "Cinzel, serif" }}
+      className="mb-2 text-3xl font-bold tracking-tight self-center text-purple-100 dark:text-white">
+      Make sure you have purchases $50 worth of RuneStone
+      </h5>
+      </div> 
+    </div>
+  </div>
+  </>)
+  else
   return (
     <>
       <HeaderComponent></HeaderComponent>
