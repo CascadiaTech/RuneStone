@@ -125,7 +125,7 @@ export default function HeaderComponent() {
               </Dropdown.Item>
               <Dropdown.Item>
               {balance * Number(price) >= 50 ? <><Link href="/Dapp/NFTMintPage">
-                  <p className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                  <p className=" cursor-pointer block py-2 pr-4 pl-3 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     Mint
                   </p>
                 </Link></> : <> <Link href="#BuySection"><a onClick={() => Swal.fire({icon: 'warning', title: "you must connect your wallet to mint", text: "if you do not have rune token you cannot access the mint page, purchase on our Uniswap widget after connecting your wallet"})}>Mint</a></Link> </>}
