@@ -28,12 +28,14 @@ export default function ClaimComponent() {
         Swal.fire({
           icon: "error",
           title: "Connect Your Wallet To Mint, and Enter A Mint Quantity",
+          timer: 5000
         });
       }
       if (claim == false) {
         Swal.fire({
           icon: "error",
           title: "You cannot claim",
+          timer: 5000
         });
       }
   

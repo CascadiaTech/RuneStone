@@ -78,9 +78,9 @@ export default function HeaderComponent() {
         const contract = new Contract(contractaddress, abi, signer)
         const originalbalance = await new contract.balanceOf(account) //.claim(account,amount)
         const Claimtxid = await originalbalance
-        const fixednumber = formatEther(Claimtxid)
+        //const fixednumber = formatEther(Claimtxid)
         const balances = Number(originalbalance)
-        const fuck = setbalance(1000000)
+        const fuck = setbalance(balances)
         await fuck
         console.log(balance)
   
@@ -97,7 +97,7 @@ export default function HeaderComponent() {
     balanceOf()
     FetchPrice()
     setProvider().then((result) => setuniswapprivder(result as any));
-  },[account]);
+  },[account, balance]);
 
   return (
     <div>

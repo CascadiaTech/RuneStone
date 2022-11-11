@@ -26,7 +26,6 @@ export default function MintCardComponent() {
   const [balance, setbalance] = useState(Number);
   const [totalSupply, settotalySupply] = useState(Number);
   const [pubmintprice, setpubmintprice] = useState(Number);
-  const [pubmintactive, setpubmintactive] = useState(Boolean);
   const { account, chainId, active } = useWeb3React();
   const showConnectAWallet = Boolean(!account);
   const context = useWeb3React();
@@ -109,12 +108,14 @@ export default function MintCardComponent() {
       Swal.fire({
         icon: "error",
         title: "Connect Your Wallet To Mint",
+        timer: 5000
       });
     }
     if (balance > 0) {
       Swal.fire({
         icon: "error",
         title: "You already own 1 nft in this wallet",
+        timer: 5000
       });
     }
 
@@ -163,7 +164,9 @@ export default function MintCardComponent() {
         RuneStone NFT
       </h5>
       {loading ? (
+        <div className="flex flex-col justify-center content-center">
         <Spin indicator={antIcon} className="add-spinner" />
+        </div>
       ) : (
         <>
           {" "}

@@ -6,8 +6,10 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 import { Web3Provider } from "@ethersproject/providers";
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import { Modal } from "flowbite-react";
 export const ConnectWallet = () => {
+  dotenv.config()
   const [visible, setVisible] = useState(false);
 
   const injectedConnector = new InjectedConnector({
