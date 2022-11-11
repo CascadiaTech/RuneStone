@@ -164,7 +164,7 @@ export default function MintCardComponent() {
         RuneStone NFT
       </h5>
       {loading ? (
-        <div className="flex flex-col justify-center content-center">
+        <div className="mr-24 flex flex-col justify-center content-center md:mr-48">
         <Spin indicator={antIcon} className="add-spinner" />
         </div>
       ) : (

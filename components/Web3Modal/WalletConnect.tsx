@@ -9,7 +9,7 @@ import { Web3Provider } from "@ethersproject/providers";
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import { Modal } from "flowbite-react";
 export const ConnectWallet = () => {
-  dotenv.config()
+  //dotenv.config()
   const [visible, setVisible] = useState(false);
 
   const injectedConnector = new InjectedConnector({
@@ -17,13 +17,13 @@ export const ConnectWallet = () => {
   });
   const walletconnect = new WalletConnectConnector({
     supportedChainIds: [1, 3, 4, 5, 42, 11155111],
-    rpc: { 1: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`, 5: `https://goerli.infura.io/v3/${process.env.INFURA_KEY}` },
+    rpc: { 1: `https://mainnet.infura.io/v3/e0171a3aab904c6bbe6622e6598770ad`, 5: `https://goerli.infura.io/v3/e0171a3aab904c6bbe6622e6598770ad` },
     bridge: "https://bridge.walletconnect.org",
     qrcode: true,  
   });
 
   const CoinbaseWallet = new WalletLinkConnector({
-    url: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
+    url: `https://mainnet.infura.io/v3/e0171a3aab904c6bbe6622e6598770ad`,
     appName: "Web3",
     supportedChainIds: [1, 3, 4, 5, 42, 11155111],
   });
@@ -98,7 +98,7 @@ export const ConnectWallet = () => {
                   Connect with one of our available wallet providers.
                 </p>
                 <ul className="my-4 space-y-3">
-                  <li className="tn:invisible invisible sm:visible md:visible lg:visible">
+                  <li className="invisible tn:invisible sm:visible md:visible lg:visible">
                     <a
                       onClick={() => ConnectInjected()}
                       className="cursor-pointer flex items-center p-3 text-base font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
