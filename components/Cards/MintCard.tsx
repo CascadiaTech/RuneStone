@@ -130,7 +130,7 @@ export default function MintCardComponent() {
       //const provider = getDefaultProvider()
       const signer = provider.getSigner();
       const contract = new Contract(contractaddress, abi, signer);
-      const ethervalue = 0;
+      const ethervalue = 0.15;
       const etherstringvalue = JSON.stringify(ethervalue);
       const MintNFT = await contract.publicMint(1, {
         value: parseEther(etherstringvalue),

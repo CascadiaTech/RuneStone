@@ -211,6 +211,7 @@ const Home: NextPage = () => {
                 jsonRpcUrlMap={jsonRpcUrlMap}
                 provider={uniswaprovider}
                 defaultOutputTokenAddress={Runeaddress} />
+                <p>Rune Contract: 0xc68a4c68f17fed266a5e39e7140650acadfe78f8</p>
             </div>
         </div>
           </>
