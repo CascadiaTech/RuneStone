@@ -8,7 +8,6 @@ import FooterComponent from "../components/Footer/FooterComponent";
 import DualCardComponent from "../components/DualCards/DualCardComponent";
 import ScrollpositionAnimation from "../hooks/OnScroll";
 import { useEffect, useState } from "react";
-import AboutusComponent from "../components/Aboutus/AboutusComponent";
 import Falls from "../assets/images/Falls.jpg";
 import { SwapWidget,darkTheme, lightTheme, Theme } from "@uniswap/widgets";
 import "@uniswap/widgets/fonts.css";
@@ -16,7 +15,6 @@ import { useWeb3React } from "@web3-react/core";
 import { abiObject }  from '../contracts/tokenabi.mjs'
 import { Web3Provider, ExternalProvider, JsonRpcFetchFunc } from "@ethersproject/providers";
 import { Contract } from "@ethersproject/contracts";
-import { BigNumber } from "@ethersproject/bignumber";
 import { formatEther } from "@ethersproject/units"
 import Link from "next/link";
 import Swal from "sweetalert2";
@@ -72,7 +70,7 @@ const Home: NextPage = () => {
         console.log(price)
       }
     }
-    async function balanceOf() {
+    async function Fetchbalance() {
       if (!account) {
         console.log({ message: 'Hold On there Partner, there seems to be an Account err!' })
         return
@@ -103,13 +101,13 @@ const Home: NextPage = () => {
       }
     }
   
-    balanceOf()
+    Fetchbalance()
     FetchPrice()
     setProvider().then((result) => setuniswapprivder(result as any));
   },[account]);
 
   const jsonRpcUrlMap = {
-    1: ["https://mainnet.infura.io/v3/7724cb4383a249dfb4a847c90954b901"],
+    1: ["https://mainnet.infura.io/v3/fc5d70bd4f49467289b3babe3d8edd97"],
     3: ["https://ropsten.infura.io/v3/<YOUR_INFURA_PROJECT_ID>"],
   };
 

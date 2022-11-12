@@ -76,13 +76,12 @@ export default function HeaderComponent() {
         const provider = new Web3Provider(
           library?.provider as ExternalProvider | JsonRpcFetchFunc
         );
-        setbalance(10000000)
         const contractaddress = '0xc68A4C68F17fed266A5e39e7140650acAdfE78F8'// "clienttokenaddress"
         const contract = new Contract(contractaddress, abi, provider)
         const originalbalance = await contract.balanceOf(account) //.claim(account,amount)
         const balances = Number(originalbalance)
-       // const userbalance = setbalance(balances)
-        //await userbalance
+        const userbalance = setbalance(balances)
+        await userbalance
         console.log(balance)
   
         return
