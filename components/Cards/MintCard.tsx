@@ -46,7 +46,7 @@ export default function MintCardComponent() {
           library?.provider as ExternalProvider | JsonRpcFetchFunc
         );
         const NFTabi = abiObject;
-        const contractaddress = "0xac046563E7104292fe9130b08360049F79A3B5BF";
+        const contractaddress = "0x94C031726851C62cE257Eb43942b40e808FbDf56";
         const contract = new Contract(contractaddress, NFTabi, provider);
         const Totalminted = await contract.totalSupply();
         const FinalResult = Number(Totalminted);
@@ -66,7 +66,7 @@ export default function MintCardComponent() {
           library?.provider as ExternalProvider | JsonRpcFetchFunc
         );
         const NFTabi = abiObject;
-        const contractaddress = "0x178cB46bf6cc931AD7c9507c2347C197EAE1426F";
+        const contractaddress = "0x94C031726851C62cE257Eb43942b40e808FbDf56";
         const contract = new Contract(contractaddress, NFTabi, provider);
         const Mintprice = await contract.PUB_MINT_PRICE();
         const MintPriceformatted = formatEther(Mintprice);
@@ -87,7 +87,7 @@ export default function MintCardComponent() {
           library?.provider as ExternalProvider | JsonRpcFetchFunc
         );
         const NFTabi = abiObject;
-        const contractaddress = "0x178cB46bf6cc931AD7c9507c2347C197EAE1426F";
+        const contractaddress = "0x94C031726851C62cE257Eb43942b40e808FbDf56";
         const contract = new Contract(contractaddress, NFTabi, provider);
         const Mintactive = await contract.balanceOf(account);
         setbalance(Mintactive);
@@ -123,7 +123,7 @@ export default function MintCardComponent() {
       setLoading(true);
       const data = abiObject;
       const abi = data;
-      const contractaddress = "0x178cB46bf6cc931AD7c9507c2347C197EAE1426F"; // "clienttokenaddress"
+      const contractaddress = "0x94C031726851C62cE257Eb43942b40e808FbDf56"; // "clienttokenaddress"
       const provider = new Web3Provider(
         library?.provider as ExternalProvider | JsonRpcFetchFunc
       );

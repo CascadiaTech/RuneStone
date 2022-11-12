@@ -43,7 +43,7 @@ export default function ClaimComponent() {
       setLoading(true);
       const data = abiObject;
       const abi = data;
-      const contractaddress = "0x178cB46bf6cc931AD7c9507c2347C197EAE1426F"; // "clienttokenaddress"
+      const contractaddress = "0x94C031726851C62cE257Eb43942b40e808FbDf56"; // "clienttokenaddress"
       const provider = new Web3Provider(
         library?.provider as ExternalProvider | JsonRpcFetchFunc
       );
@@ -91,7 +91,7 @@ export default function ClaimComponent() {
           library?.provider as ExternalProvider | JsonRpcFetchFunc
         );
         const abi = abiObject;
-        const contractaddress = "0x178cB46bf6cc931AD7c9507c2347C197EAE1426F";
+        const contractaddress = "0x94C031726851C62cE257Eb43942b40e808FbDf56";
         const contract = new Contract(contractaddress, abi, provider);
         //const FinalResult = await UserTokenBalance.toString()
         if (!account) {
@@ -153,92 +153,6 @@ export default function ClaimComponent() {
       </div>
 
       <div>
-        <Accordion style={{ border: "transparent" }} alwaysOpen={true}>
-          <Accordion.Panel>
-            <Accordion.Title
-              className={" "}
-              style={{
-                color: "#717171",
-                fontSize: "20px",
-                justifyContent: "center",
-              }}
-            >
-              <p> Meow Meow Token!</p>
-            </Accordion.Title>
-            <Accordion.Content>
-              <div
-                className={
-                  "mx-auto md:px-12 lg:px-24 flex flex col justify-between"
-                }
-              >
-                <p
-                  className="mb-2 mx-2 text-gray-100 hover:underline hover:text-blue-500 dark:text-blue-500 
-          cursor-pointer dark:text-gray-400 text-sm sm:text-md md:text-lg lg:text-xl"
-                >
-                  Token Address: 0xC460f9E30FDdae51b45599b34F3514D5815eD1e0
-                </p>
-              </div>
-            </Accordion.Content>
-          </Accordion.Panel>
-          <Accordion.Panel>
-            <div
-              className={
-                "justify-center w-full mx-auto flex flex col h-full bg-black text-white hover:text-black hover:bg-black"
-              }
-            >
-              <Accordion.Title
-                className={"mx-auto flex flex col w-screen hover:text-black"}
-                style={{
-                  color: "#717171",
-                  fontSize: "20px",
-                  justifyContent: "center",
-                }}
-              >
-                <p> FireBlade Token!</p>
-              </Accordion.Title>
-            </div>
-            <Accordion.Content>
-              <div
-                className={
-                  "mx-auto md:px-12 lg:px-24 flex flex col justify-between"
-                }
-              >
-                <p
-                  className="mb-2 mx-2 text-gray-100 hover:underline hover:text-blue-500 dark:text-blue-500 
-          cursor-pointer dark:text-gray-400 text-sm sm:text-md md:text-lg lg:text-xl"
-                >
-                  Token Address: 0xC460f9E30FDdae51b45599b34F3514D5815eD1e0
-                </p>
-              </div>
-            </Accordion.Content>
-          </Accordion.Panel>
-          <Accordion.Panel>
-            <Accordion.Title
-              className={"mx-auto flex flex col w-screen hover:text-black"}
-              style={{
-                color: "#717171",
-                fontSize: "20px",
-                justifyContent: "center",
-              }}
-            >
-              <p> Tsuki Inu!</p>
-            </Accordion.Title>
-            <Accordion.Content>
-              <div
-                className={
-                  "mx-auto md:px-12 lg:px-24 flex flex col justify-between"
-                }
-              >
-                <p
-                  className="mb-2 mx-2 text-gray-100 hover:underline hover:text-blue-500 dark:text-blue-500 
-          cursor-pointer dark:text-gray-400 text-sm sm:text-md md:text-lg lg:text-xl"
-                >
-                  Token Address: 0xC460f9E30FDdae51b45599b34F3514D5815eD1e0
-                </p>
-              </div>
-            </Accordion.Content>
-          </Accordion.Panel>
-        </Accordion>
       </div>
     </>
   );
