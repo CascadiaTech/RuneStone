@@ -1,8 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+
+This is a Nextjs project built by @CascadiaTech @cryptoconner and his brother @TheOneAndOnlyLiam
+
+This is the front facing web application to the official RuneStone RuneBag NFT Collection deployed to ethereum here :
+
+https://etherscan.io/address/0x94c031726851c62ce257eb43942b40e808fbdf56
+
+This has been opened as public as a resource for anyone else looking to make web3 apps and need some code to help them get going. 
+
+This was made with Typescript, Javascript, @ethersproject, and @Web3React
 
 ## Getting Started
 
-First, run the development server:
+First yarn install || npm install 
+
+Second, run the development server:
 
 ```bash
 npm run dev
@@ -14,9 +26,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
 ## Learn More
 
