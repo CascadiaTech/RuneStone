@@ -31,13 +31,6 @@ export default function ClaimComponent() {
         timer: 5000,
       });
     }
-    if (claim == false) {
-      Swal.fire({
-        icon: "error",
-        title: "You cannot claim",
-        timer: 5000,
-      });
-    }
 
     try {
       setLoading(true);
