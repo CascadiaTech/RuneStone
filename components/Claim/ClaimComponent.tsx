@@ -104,7 +104,7 @@ export default function ClaimComponent() {
           const usersclaimperiod = await contract.usersPeriodId(account);
           const currentperiod = await contract.currentRewardPeriodId();
           (await usersclaimperiod) && await currentperiod;
-          if (usersclaimperiod >= currentperiod) {
+          if (usersclaimperiod <= currentperiod) {
             setcanclaim(true);
           } else {
             setcanclaim(false);
