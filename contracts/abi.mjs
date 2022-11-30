@@ -136,22 +136,6 @@ const abi = JSON.stringify([
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "contract IERC20", name: "token", type: "address" },
-    ],
-    name: "ClaimOneToken",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "ClaimedRounds",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [{ internalType: "uint256", name: "id", type: "uint256" }],
     name: "FetchAmountById",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
@@ -203,10 +187,30 @@ const abi = JSON.stringify([
     type: "function",
   },
   {
+    inputs: [
+      { internalType: "contract IERC20", name: "token", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "Rescuetokens",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
     name: "TokenID",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_user", type: "address" },
+      { internalType: "uint256", name: "periodid", type: "uint256" },
+    ],
+    name: "Updateusersid",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -230,16 +234,9 @@ const abi = JSON.stringify([
     type: "function",
   },
   {
-    inputs: [],
-    name: "WL_MINT_PRICE",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       { internalType: "address", name: "_to", type: "address" },
-      { internalType: "uint256", name: "_quantity", type: "uint256" },
+      { internalType: "uint256", name: "periodid", type: "uint256" },
     ],
     name: "airDropMint",
     outputs: [],
@@ -260,17 +257,6 @@ const abi = JSON.stringify([
     ],
     name: "approve",
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "spender", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-      { internalType: "contract IERC20", name: "token", type: "address" },
-    ],
-    name: "approveERC20",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -525,13 +511,6 @@ const abi = JSON.stringify([
     name: "withdraw",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "wlMintActive",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
     type: "function",
   },
   { stateMutability: "payable", type: "receive" },
