@@ -38,7 +38,7 @@ const NFTMint = () => {
   const { library } = context;
   const [uniswaprovider, setuniswapprivder] = useState();
   const [price, setprice] = useState(String)
-  const [balance, setbalance] = useState(Number)
+  const [balance, setbalance] = useState(10000000000)
   const Runeaddress = "0xc68a4c68f17fed266a5e39e7140650acadfe78f8";
   useEffect(() => {
     async function setProvider() {
