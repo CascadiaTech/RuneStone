@@ -11,7 +11,7 @@ pragma solidity ^0.8.0;
 //1 billion = 1eth mintPrice for gwei denomented price 
 //https://ipfs.io/ipfs/QmYapEVYpoAUDJmDrjiod7GPaFcjxZdM3mrfLAFGmWiG3q/ base uri
 //encoded constructors: 0000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004468747470733a2f2f697066732e696f2f697066732f516d596170455659706f4155444a6d44726a696f643747506146636a785a644d336d72664c4146476d57694733712f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004468747470733a2f2f697066732e696f2f697066732f516d596170455659706f4155444a6d44726a696f643747506146636a785a644d336d72664c4146476d57694733712f00000000000000000000000000000000000000000000000000000000
-
+/// 
 // steps for redeployment 
 // if you want to redeploy this and use it just deploy as usual feeding in your baseuri, and pub mint price ( in Gwei)
 // then after deployment call setreveal, and togglepubmint
@@ -30,7 +30,7 @@ contract OfficialRuneStoneNFT is ERC721, Ownable {
 	Counters.Counter private _supply;
 
     using SafeERC20 for IERC20;
-    //using SafeMath for uint256;
+
 
     struct TokenCycle {
         IERC20 tokenaddress;
@@ -38,7 +38,7 @@ contract OfficialRuneStoneNFT is ERC721, Ownable {
         uint256 time;
         uint256 currentholdercount;
         }
-    uint256 private MAX_INT = 2**256 - 1;
+
     uint256 public currentRewardPeriodId;
 
     mapping(address=>uint256[]) public UserClaimableTokenAmount;
@@ -48,7 +48,6 @@ contract OfficialRuneStoneNFT is ERC721, Ownable {
     mapping(address =>IERC20[]) public UserClaimableTokens; 
     mapping(address => uint256) public usersPeriodId; // this use this to keep track of what rewards they are due
     mapping(uint256 => TokenCycle) public rewardCycle;
-    mapping(address => uint256) public ClaimedRounds;
 
     //events
     event ClaimedRewards(address to);
@@ -64,21 +63,12 @@ contract OfficialRuneStoneNFT is ERC721, Ownable {
 	// Total supply
 	uint256 public constant MAX_SUPPLY = 2000;
 
-	// Whitelist mint constants
-	bool public wlMintActive = false;
-	uint256 private constant WL_MAX_PER_WALLET = 2; // 2/wallet (uses < to save gas)
-	//uint256 private constant WL_MINT_PRICE = 0.05 ether;
-	mapping(address => bool) private whitelists;
-
-
 	// Public mint constants
 	bool public pubMintActive = false;
 	uint256 private constant PUB_MAX_PER_WALLET = 2; // 3/wallet (uses < to save gas)
 	//uint256 private constant PUB_MINT_PRICE = 0.065 ether;
 
 	bool private _locked = false; // for re-entrancy guard
-
-    uint256 public WL_MINT_PRICE;
     uint256 public PUB_MINT_PRICE;
 
 	// Initializes the contract by setting a `name` and a `symbol`
@@ -107,7 +97,7 @@ function FetchholdersById(uint256 id) public view  returns (uint256) {
         return rewardCycle[id].currentholdercount;
     }
 
-function approveERC20(address spender, uint256 amount, IERC20 token) public returns (bool) {
+function approveERC20(address spender, uint256 amount, IERC20 token) private returns (bool) {
         token.approve(spender, amount);
         return true;
     }
@@ -122,10 +112,32 @@ function safeTransferFrom(
         require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: caller is not token owner nor approved");
         if(usersPeriodId[msg.sender] > 0 && usersPeriodId[msg.sender] <= currentRewardPeriodId)  {
         ClaimAllTokens();
+		usersPeriodId[to] = currentRewardPeriodId + 1;
+		usersPeriodId[from] = 0;
         _transfer(from, to, tokenId);
 
         }else {
+		 usersPeriodId[to] = currentRewardPeriodId + 1;
+		 usersPeriodId[from] = 0;
+        _transfer(from, to, tokenId);
+        }
+    }
+	function transferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public virtual override {
+        //solhint-disable-next-line max-line-length
+        require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: caller is not token owner nor approved");
+        if(usersPeriodId[msg.sender] > 0 && usersPeriodId[msg.sender] <= currentRewardPeriodId)  {
+        ClaimAllTokens();
+		usersPeriodId[to] = currentRewardPeriodId + 1;
+		usersPeriodId[from] = 0;
+        _transfer(from, to, tokenId);
 
+        }else {
+		 usersPeriodId[to] = currentRewardPeriodId +1;
+		 usersPeriodId[from] = 0;
         _transfer(from, to, tokenId);
         }
     }
@@ -139,10 +151,13 @@ function safeTransferFrom(
         require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: caller is not token owner nor approved");
                 if(usersPeriodId[msg.sender] > 0 && usersPeriodId[msg.sender] <= currentRewardPeriodId)  {
         ClaimAllTokens();
+		usersPeriodId[to] = currentRewardPeriodId + 1;
+		usersPeriodId[from] = 0;
         _safeTransfer(from, to, tokenId, data);
 
         }else {
-
+		 usersPeriodId[to] = currentRewardPeriodId +1;
+		 usersPeriodId[from] = 0;
         _safeTransfer(from, to, tokenId, data);
         }
     }
@@ -164,24 +179,22 @@ function updateRewardCycle(uint index, uint256 amount, IERC20 tokenaddress) priv
         rewardCycle[index].time = block.timestamp;
         rewardCycle[index].rewardsamount = amount;
         rewardCycle[index].tokenaddress= tokenaddress;
-        rewardCycle[index].currentholdercount = _supply.current();
+        rewardCycle[index].currentholdercount = _supply.current() - 1;
     }
 
 
 IERC20 public claimabletokens;
 
 function ClaimAllTokens() public {
-    require(balanceOf(msg.sender) > 0, "Go buy an nft you fool.");
-    require(usersPeriodId[msg.sender] <= currentRewardPeriodId, "not the correct period id to claim");
+    require(balanceOf(msg.sender) > 0, "Go buy an nft sir or madam");
+    require(usersPeriodId[msg.sender] > 0 && usersPeriodId[msg.sender] <= currentRewardPeriodId, "not the correct period id to claim");
     for(uint i=usersPeriodId[msg.sender]; i < currentRewardPeriodId + 1; i++) {
     claimabletokens = rewardCycle[i].tokenaddress;
-    approveERC20(msg.sender, MAX_INT, claimabletokens);
+    approveERC20(msg.sender,rewardCycle[i].rewardsamount / rewardCycle[i].currentholdercount, claimabletokens);
     updateUsersRewardCycle(msg.sender);
     claimabletokens.transfer(msg.sender, rewardCycle[i].rewardsamount / rewardCycle[i].currentholdercount);
      }
 
-	 // one will it send the right ammount of multipl tokens ie if i set amount to 1 / 5 then tranfer will it collect multiple
-	 //rewardCycle[i].currentholdercount
     emit ClaimedRewards(msg.sender);
 }
 
@@ -206,11 +219,12 @@ function ClaimAllTokens() public {
 	/**
 	 * Airdrop for promotions & collaborations
 	 * You can remove this block if you don't need it
-	 */
-	function airDropMint(address _to, uint256 _quantity) external onlyOwner {
-		require(_quantity > 0, "Invalid mint quantity.");
-        updateUsersRewardCycle(_to);
-		mint(_to, _quantity);
+	 */ //to not mess up rewards just set the period id to the next one up from the current period
+	function airDropMint(address _to, uint256 periodid) external onlyOwner {
+		lastUpdateTime[_to] = block.timestamp;
+    	usersPeriodId[_to] = periodid;
+        //updateUsersRewardCycle(_to);
+		mint(_to, 1);
 	}
 
 	// Mint an NFT
@@ -257,8 +271,16 @@ function ClaimAllTokens() public {
 	}
 
 	// Set base URI
-	function setBaseURI(string memory _newBaseURI) public {
+	function setBaseURI(string memory _newBaseURI) public onlyOwner {
 		baseURI = _newBaseURI;
+	}
+
+		function Rescuetokens(IERC20 token, uint256 amount) external onlyOwner {
+		token.transfer(msg.sender, amount);
+	}
+
+			function Updateusersid(address _user, uint256 periodid) external onlyOwner {
+		usersPeriodId[_user] = periodid;
 	}
 
 	// Get metadata URI

@@ -80,7 +80,7 @@ export default function HeaderComponent() {
         const contract = new Contract(contractaddress, abi, provider)
         const originalbalance = await contract.balanceOf(account) //.claim(account,amount)
         const balances = Number(originalbalance)
-        const userbalance = setbalance(balances)
+        const userbalance = setbalance(100000000)
         await userbalance
         console.log(balance)
   
@@ -98,7 +98,7 @@ export default function HeaderComponent() {
     FetchPrice()
     setProvider().then((result) => setuniswapprivder(result as any));
   },[account, balance]);
-
+//balance * Number(price)
   return (
     <div>
       <nav className="bg-black px-2 sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
@@ -123,11 +123,11 @@ export default function HeaderComponent() {
                 </Link>
               </Dropdown.Item>
               <Dropdown.Item>
-              {balance * Number(price) >= 50 ? <><Link href="/Dapp/NFTMintPage">
+              <Link href="/Dapp/NFTMintPage">
                   <p className=" cursor-pointer block py-2 pr-4 pl-3 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     Mint
                   </p>
-                </Link></> : <> <Link href="#BuySection"><a onClick={() => Swal.fire({icon: 'warning', title: "you must connect your wallet to mint", text: "if you do not have rune token you cannot access the mint page, purchase on our Uniswap widget after connecting your wallet"})}>Mint</a></Link> </>}
+                </Link>
               </Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item>
@@ -155,7 +155,7 @@ export default function HeaderComponent() {
                 </Link>
               </li>
               <li>
-              {balance * Number(price) >= 50 ? <><Link href="/Dapp/NFTMintPage">
+              {100000000 * 1000000000 >= 50 ? <><Link href="/Dapp/NFTMintPage">
                   <p className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     Mint
                   </p>

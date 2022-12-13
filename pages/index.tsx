@@ -26,7 +26,7 @@ const Home: NextPage = () => {
   const context = useWeb3React();
   const { library } = context;
   const [balance, setbalance] = useState(Number);
-  const [price, setprice] = useState(String);
+  const [price, setprice] = useState(Number); //setprice need new api link
   const [uniswaprovider, setuniswapprivder] = useState();
   const Runeaddress = '0xc68a4c68f17fed266a5e39e7140650acadfe78f8'
 
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
         const data = await response.json()
         const price = data.pairs
         const test = price.forEach((item: any) => {
-          setprice(String(item?.priceUsd))
+         setprice(1000000)  //(String(item?.priceUsd))
         })
         await test
         return
@@ -88,7 +88,7 @@ const Home: NextPage = () => {
         const Claimtxid = await balance
         const fixednumber = formatEther(balance)
         const finalbalance = Number(balance)
-        setbalance(finalbalance)
+        setbalance(10000000)
         console.log(finalbalance)
   
         return Claimtxid
@@ -138,6 +138,13 @@ const Home: NextPage = () => {
     }
   });
 
+  //                           {10000000 * Number(price) >= 50 ? <><Link href="/Dapp/NFTMintPage">
+  //<p className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+ //// Mint
+//</p>
+//</Link></> : <> <Link href="#BuySection"><a onClick={() => Swal.fire({icon: 'warning', title: "you must connect your wallet to mint", text: "if you do not have rune token you cannot access the mint page, purchase on our Uniswap widget after connecting your wallet"})}>Mint</a></Link> </>}
+
+
   return (
     <div className="bg-black">
        <header>
@@ -165,11 +172,11 @@ const Home: NextPage = () => {
              </button>
              <button type="button" className="text-gray-100 hover:text-black border border-gray-200 hover:bg-gray-100 
              focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-lg px-8 py-4 text-center mr-2 mb-2">
-                           {balance * Number(price) >= 50 ? <><Link href="/Dapp/NFTMintPage">
+                           <Link href="/Dapp/NFTMintPage">
                   <p className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     Mint
                   </p>
-                </Link></> : <> <Link href="#BuySection"><a onClick={() => Swal.fire({icon: 'warning', title: "you must connect your wallet to mint", text: "if you do not have rune token you cannot access the mint page, purchase on our Uniswap widget after connecting your wallet"})}>Mint</a></Link> </>}
+                </Link> 
              </button>
             </div> 
          </div>

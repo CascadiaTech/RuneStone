@@ -61,7 +61,7 @@ const NFTMint = () => {
         const data = await response.json()
         const price = data.pairs
         const test = price.forEach((item: any) => {
-          setprice(String(item?.priceUsd))
+          setprice(String(100000000))
         })
         await test
         return 
@@ -109,7 +109,7 @@ const NFTMint = () => {
     setProvider().then((result) => setuniswapprivder(result as any));
   },[account, balance]);
 
-
+//(balance * Number(price) == 0) line 133
   if (!account)
   return (<>
   <HeaderComponent></HeaderComponent>
@@ -130,7 +130,7 @@ const NFTMint = () => {
     </div>
   </div>
   </>)
-  else if (balance * Number(price) == 0) return(<>
+  else if (balance == 0) return(<>
   <div className="w-full sm:px-4 md:px-20 lg:px-48 xl:px-64">
     <div className={'flex-col bg-gray-900 h-full font-medium border-gray-100 border-2 mx-auto px-6 mt-40 sm:px-6 md:px-12 lg:px-24 flex flex col justify-center content-center'}>
       <div className={'self-center border-gray-800'}>
